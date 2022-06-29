@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Majsoul</title>
+    <script type="text/javascript" th:src="@{/static/js/jquery-3.5.1.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.min.css}"/>
+    <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div id="navbar"></div>
+    <div class="row">
+        <div class="col-md-3">
+            <img th:src="${majsoulLeftPng}" style="width: 100%"/>
+        </div>
+        <div class="col-md-6">
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="nickname" class="h5">昵称</label>
+                        <input type="text" class="form-control" id="nickname" onkeyup="searchUser()">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="nicknameCandidate" class="h5">&nbsp;</label>
+                        <select class="form-control" id="nicknameCandidate" onchange="changeNickname('nicknameCandidate')">
+                            <option>maybe...</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="mode" class="h5">模式</label>
+                        <select type="text" class="form-control" id="mode">
+                            <option value="9">请先根据昵称查询</option>
+                        </select>
+                    </div>
+                </div>
+            </form><br><br>
+            <div class="row" id="data">
+                <div class="col-md-3">
+                    <h4>基本信息</h4>
+                    <table class="table" id="basicInfo">
+                        <tr>
+                            <td>id</td>
+                            <td id="accountId"></td>
+                        </tr>
+                        <tr>
+                            <td>游戏昵称</td>
+                            <td id="accountName"></td>
+                        </tr>
+                        <tr>
+                            <td>当前段位</td>
+                            <td id="currentRank"></td>
+                        </tr>
+                        <tr>
+                            <td>当前分数</td>
+                            <td id="currentScore"></td>
+                        </tr>
+                        <tr>
+                            <td>最高段位</td>
+                            <td id="highestRank"></td>
+                        </tr>
+                        <tr>
+                            <td>最高分数</td>
+                            <td id="highestScore"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-3">
+                    <h4>rank!</h4>
+                    <table class="table">
+                        <tr>
+                            <td>局数</td>
+                            <td id="count"></td>
+                        </tr>
+                        <tr>
+                            <td>一位率</td>
+                            <td id="first"></td>
+                        </tr>
+                        <tr>
+                            <td>二位率</td>
+                            <td id="second"></td>
+                        </tr>
+                        <tr>
+                            <td>三位率</td>
+                            <td id="third"></td>
+                        </tr>
+                        <tr>
+                            <td>四位率</td>
+                            <td id="fourth"></td>
+                        </tr>
+                        <tr>
+                            <td>被飞率</td>
+                            <td id="flyRate"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-3">
+                    <h4>荣！</h4>
+                    <table class="table">
+                        <tr>
+                            <td>和牌率</td>
+                            <td id="winRate"></td>
+                        </tr>
+                        <tr>
+                            <td>自摸率</td>
+                            <td id="winSelfRate"></td>
+                        </tr>
+                        <tr>
+                            <td>和了巡数</td>
+                            <td id="winCycle"></td>
+                        </tr>
+                        <tr>
+                            <td>平均打点</td>
+                            <td id="avgScore"></td>
+                        </tr>
+                        <tr>
+                            <td>最大累计番数</td>
+                            <td id="maxFan"></td>
+                        </tr>
+                        <tr>
+                            <td>最大连庄</td>
+                            <td id="maxContinue"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-3">
+                    <h4>铳！</h4>
+                    <table class="table">
+                        <tr>
+                            <td>放铳率</td>
+                            <td id="loseRate"></td>
+                        </tr>
+                        <tr>
+                            <td>平均铳点</td>
+                            <td id="loseScore">4%</td>
+                        </tr>
+                        <tr>
+                            <td>放铳时立直率</td>
+                            <td id="loseWhenLiZhi"></td>
+                        </tr>
+                        <tr>
+                            <td>放铳至副露</td>
+                            <td id="loseToFuLou"></td>
+                        </tr>
+                        <tr>
+                            <td>放铳至默听</td>
+                            <td id="loseToMoTing"></td>
+                        </tr>
+                        <tr>
+                            <td>放铳至立直</td>
+                            <td id="loseToLizhi"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+</div>
+<script>
+    let map = {};
+    $.get("/static/html/userNav.html", function(data) {
+        $("#navbar").replaceWith(data);
+    });
+    function searchUser () {
+        let req = "/game/majsoul/searchUser" + "?nickname=" + $('#nickname').val();
+        console.log(req)
+        fetch(req).then(function (response) {
+            return response.json().then(function(json) {
+                console.log(json);
+                let innerHTML;
+                for (let i = 0; i < json.length; i++) {
+                    innerHTML += '<option id=' + json[i].accountId + '>' + json[i].nickname + '</option>';
+                }
+                document.getElementById("nicknameCandidate").innerHTML=innerHTML;
+            })
+        });
+    }
+
+    function changeNickname (candidate) {
+        let candidateValue = document.getElementById(candidate).value;
+        console.log();
+        document.getElementById("nickname").value=candidateValue;
+        query();
+    }
+    function query() {
+        let accountId;
+        let select = document.getElementById("nicknameCandidate")
+        let nickname = document.getElementById("nickname").value;
+        if (nickname == null || nickname === '') {
+            alert("还没输入昵称呢！");
+        } else {
+            for (let i = 0; i < select.length; i++) {
+                console.log(select[i]);
+                if (select[i].innerHTML === nickname) {
+                    accountId = select[i].id;
+                }
+            }
+            let req = "/game/majsoul/query" + "?accountId=" + accountId + "&mode=" + $('#mode').val();
+            fetch(req).then(function (response) {
+                return response.json().then(function(json) {
+                    console.log(json);
+                    if (json.code === '0') {
+                        console.log(json.data.basicInfo);
+                        let basicInfoHtml;
+                        for (let i = 0; i < json.data.basicInfo.length; i++) {
+                            basicInfoHtml += '<tr>' + '<td>' + json.basicInfo[0].key + '</td><td>' + json.basicInfo[0].value + '</td></tr>';
+                        }
+                        console.log(basicInfoHtml);
+                        document.getElementById("basicInfo");
+                    }
+                })
+            })
+        }
+    }
+</script>
+</body>
+</html>
