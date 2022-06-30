@@ -11,4 +11,6 @@ public class ApexRequestPath {
      * 查询玩家信息统计
      */
     public static final String QUERY_PLAY_STATISTICS = "/bridge";
+
+    public static final String QUERY_UID_BY_NAME = "/nametouid";
 }

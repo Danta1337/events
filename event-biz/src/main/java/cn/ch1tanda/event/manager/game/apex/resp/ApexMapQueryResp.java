@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.Map;
 
 @Data
-public class ApexMapQueryResp implements Serializable {
+public class ApexMapQueryResp extends ApexErrorResp implements Serializable {
     private static final long serialVersionUID = -7265679765858045725L;
 
     private Map<String, MapRotationDetails> battleRoyale;

@@ -1,5 +1,6 @@
 package cn.ch1tanda.event.manager.game.apex.req;
 
+import cn.ch1tanda.event.exception.ServiceInvalidException;
 import cn.ch1tanda.event.utils.http.StringUtils;
 import cn.ch1tanda.event.utils.http.annotation.HttpParam;
 import lombok.Data;
@@ -67,10 +68,10 @@ public class ApexPlayerStatisticsQueryReq extends ApexCommonReq implements Seria
 
     public void checkParam () {
         if (StringUtils.isBlank(this.player) && StringUtils.isBlank(this.uid)) {
-            throw new RuntimeException("玩家名称与UID不可同时为空！");
+            throw new ServiceInvalidException("玩家名称与UID不可同时为空！");
         }
         if (StringUtils.isBlank(this.platform)) {
-            throw new RuntimeException("游戏平台不可为空！");
+            throw new ServiceInvalidException("游戏平台不可为空！");
         }
     }
 }

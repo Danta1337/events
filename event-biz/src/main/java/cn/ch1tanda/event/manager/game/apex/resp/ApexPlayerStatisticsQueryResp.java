@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class ApexPlayerStatisticsQueryResp implements Serializable {
+public class ApexPlayerStatisticsQueryResp extends ApexErrorResp implements Serializable {
     private static final long serialVersionUID = 3715817249098653841L;
 
     private BasicInfo global;
