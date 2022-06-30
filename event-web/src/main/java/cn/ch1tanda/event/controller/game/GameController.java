@@ -15,4 +15,8 @@ public class GameController {
     @Resource
     private FileManager fileManager;
 
+    @RequestMapping(path = "/apex")
+    public String apexLegends () {
+        return "apex";
+    }
 }
