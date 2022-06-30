@@ -9,9 +9,18 @@ import cn.ch1tanda.event.manager.game.apex.resp.ApexUIDQueryResp;
 
 public interface ApexLegendsManager {
 
-    ApexMapQueryResp queryMapRotation (ApexMapQueryReq request);
+    /**
+     * 查询地图轮换信息
+     */
+    ApexMapQueryResp queryMapRotationInfo(ApexMapQueryReq request);
 
+    /**
+     * 查询玩家统计信息
+     */
     ApexPlayerStatisticsQueryResp queryPlayerStatisticsInfo (ApexPlayerStatisticsQueryReq request);
 
+    /**
+     * 根据玩家名称和平台查询玩家UID
+     */
     ApexUIDQueryResp queryUIDByNameAndPlatform (ApexUIDQueryReq request);
 }

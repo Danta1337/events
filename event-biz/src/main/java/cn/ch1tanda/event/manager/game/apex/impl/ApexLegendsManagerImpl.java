@@ -5,7 +5,6 @@ import cn.ch1tanda.event.manager.game.apex.constant.ApexRequestPath;
 import cn.ch1tanda.event.manager.game.apex.req.ApexMapQueryReq;
 import cn.ch1tanda.event.manager.game.apex.req.ApexPlayerStatisticsQueryReq;
 import cn.ch1tanda.event.manager.game.apex.req.ApexUIDQueryReq;
-import cn.ch1tanda.event.manager.game.apex.resp.ApexErrorResp;
 import cn.ch1tanda.event.manager.game.apex.resp.ApexMapQueryResp;
 import cn.ch1tanda.event.manager.game.apex.resp.ApexPlayerStatisticsQueryResp;
 import cn.ch1tanda.event.manager.game.apex.resp.ApexUIDQueryResp;
@@ -20,7 +19,7 @@ public class ApexLegendsManagerImpl implements ApexLegendsManager {
 
     public static final String REQUEST_URL = "https://api.mozambiquehe.re";
     @Override
-    public ApexMapQueryResp queryMapRotation(ApexMapQueryReq request) {
+    public ApexMapQueryResp queryMapRotationInfo(ApexMapQueryReq request) {
         request.setAuth(API_KEY);
         return HttpUtils.GET(REQUEST_URL + ApexRequestPath.MAP_ROTATION + HttpUtils.getHttpParamStr(request)
                 , ApexMapQueryResp.class);
