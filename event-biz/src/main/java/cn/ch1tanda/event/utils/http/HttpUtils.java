@@ -1,6 +1,6 @@
 package cn.ch1tanda.event.utils.http;
 
-import cn.ch1tanda.event.manager.game.apex.req.ApexQueryByNameReq;
+import cn.ch1tanda.event.manager.game.apex.req.ApexPlayerStatisticsQueryReq;
 import cn.ch1tanda.event.utils.http.annotation.HttpParam;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.codec.Charsets;
@@ -31,7 +31,7 @@ public class HttpUtils {
     }
 
     public static void main(String[] args) {
-        ApexQueryByNameReq req = new ApexQueryByNameReq();
+        ApexPlayerStatisticsQueryReq req = new ApexPlayerStatisticsQueryReq();
         req.setAuth("auth");
         req.setPlatform("PC");
         req.setPlayer("ch1tanda");

@@ -1,4 +1,4 @@
-package cn.ch1tanda.event.convention.exception;
+package cn.ch1tanda.event.exception;
 
 /**
  * 统一的服务异常
