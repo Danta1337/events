@@ -11,14 +11,29 @@ import java.util.Map;
 public class ApexMapQueryResp extends ApexErrorResp implements Serializable {
     private static final long serialVersionUID = -7265679765858045725L;
 
+    /**
+     * 大逃杀模式
+     */
     private Map<String, MapRotationDetails> battleRoyale;
 
+    /**
+     * 竞技场模式
+     */
     private Map<String, MapRotationDetails> arenas;
 
+    /**
+     * 排位模式
+     */
     private Map<String, MapRotationDetails> ranked;
 
+    /**
+     * 竞技场排位模式
+     */
     private Map<String, MapRotationDetails> arenasRanked;
 
+    /**
+     * 控制模式
+     */
     private Map<String, MapRotationDetails> control;
 
     @Data

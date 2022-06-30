@@ -18,6 +18,7 @@ public class ApexLegendsManagerImpl implements ApexLegendsManager {
     public static final String API_KEY = "516e0c73e87944cbce73fe20ca073997";
 
     public static final String REQUEST_URL = "https://api.mozambiquehe.re";
+
     @Override
     public ApexMapQueryResp queryMapRotationInfo(ApexMapQueryReq request) {
         request.setAuth(API_KEY);

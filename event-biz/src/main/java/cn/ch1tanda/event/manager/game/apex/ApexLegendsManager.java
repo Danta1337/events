@@ -12,7 +12,7 @@ public interface ApexLegendsManager {
     /**
      * 查询地图轮换信息
      */
-    ApexMapQueryResp queryMapRotationInfo(ApexMapQueryReq request);
+    ApexMapQueryResp queryMapRotationInfo (ApexMapQueryReq request);
 
     /**
      * 查询玩家统计信息

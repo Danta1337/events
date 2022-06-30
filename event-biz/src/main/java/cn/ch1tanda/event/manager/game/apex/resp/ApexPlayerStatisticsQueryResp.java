@@ -25,7 +25,7 @@ public class ApexPlayerStatisticsQueryResp extends ApexErrorResp implements Seri
         private String uid;
 
         /**
-         * 化身?
+         * 头像URL
          */
         private String avatar;
 

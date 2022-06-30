@@ -24,7 +24,7 @@ public class ApexUIDQueryResp extends ApexErrorResp implements Serializable {
     private String pid;
 
     /**
-     * 化身?
+     * 头像URL
      */
     private String avatar;
 }
