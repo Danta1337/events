@@ -31,7 +31,7 @@ public class ApexLegendsManagerImpl implements ApexLegendsManager {
         request.setAuth(API_KEY);
         request.checkParam();
         if (StringUtils.isNotBlank(request.getPlayer()) && StringUtils.isNotBlank(request.getUid())) {
-            // 如果同时传了playName和playUID，默认取PlayerUID
+            // 如果同时传了Name和UID，默认取UID
             request.setPlayer(null);
         }
         return HttpUtils.GET(REQUEST_URL + ApexRequestPath.QUERY_PLAY_STATISTICS + HttpUtils.getHttpParamStr(request)
