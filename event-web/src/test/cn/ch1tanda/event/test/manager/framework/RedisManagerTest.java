@@ -1,13 +1,12 @@
-package cn.ch1tanda.event.manager.framework;
+package cn.ch1tanda.event.test.manager.framework;
 
-import cn.ch1tanda.event.EventApplication;
+import cn.ch1tanda.event.test.BaseTest;
+import cn.ch1tanda.event.manager.framework.RedisManager;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 
-@SpringBootTest(classes = EventApplication.class)
-public class RedisManagerTest {
+public class RedisManagerTest extends BaseTest {
 
     @Resource
     private RedisManager redisManager;

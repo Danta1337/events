@@ -1,8 +1,5 @@
 package cn.ch1tanda.event.manager.framework;
 
-/**
- * Redis相关操作
- */
 public interface RedisManager {
 
     void set(String key, String value);

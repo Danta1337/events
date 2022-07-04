@@ -5,15 +5,12 @@ import cn.ch1tanda.event.manager.file.constant.FileAccessConstant;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
-import com.qcloud.cos.auth.COSCredentials;
 import com.qcloud.cos.http.HttpProtocol;
 import com.qcloud.cos.region.Region;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
