@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 导入样式 -->
+    <link rel="stylesheet" href="../css/element2.2.8.css" />
+    <!-- 导入 Vue 3 -->
+    <script src="../js/vue3.2.36.js"></script>
+    <!-- 导入组件库 -->
+    <script src="../js/element2.2.8.js"></script>
+    <!-- 导入图标库 -->
+    <script src="../js/element-icons.js"></script>
+</head>
+<body>
+<div id="app" style="height: 100%">
+<el-container class="layout-container">
+    <el-header>caonima</el-header>
+    <el-container>
+    <el-aside width="200px">
+    <el-scrollbar hight="100%">
+            <el-menu
+                    default-active="2"
+                    @open="handleOpen"
+                    @close="handleClose"
+                    @select="select"
+            >
+                <el-sub-menu index="1">
+                    <template #title>
+                        <el-icon><location /></el-icon>
+                        <span>Navigator One</span>
+                    </template>
+                    <el-menu-item-group title="Group One">
+                        <el-menu-item index="1-1">item one</el-menu-item>
+                        <el-menu-item index="1-2">item one</el-menu-item>
+                    </el-menu-item-group>
+                    <el-menu-item-group title="Group Two">
+                        <el-menu-item index="1-3">item three</el-menu-item>
+                    </el-menu-item-group>
+                    <el-sub-menu index="1-4">
+                        <template #title>item four</template>
+                        <el-menu-item index="1-4-1">item one</el-menu-item>
+                    </el-sub-menu>
+                </el-sub-menu>
+                <el-menu-item index="2">
+                    <el-icon><icon-menu /></el-icon>
+                    <span>Navigator Two</span>
+                </el-menu-item>
+                <el-menu-item index="3" disabled>
+                    <el-icon><document /></el-icon>
+                    <span>Navigator Three</span>
+                </el-menu-item>
+                <el-menu-item index="4">
+                    <el-icon><setting /></el-icon>
+                    <span>Navigator Four</span>
+                </el-menu-item>
+            </el-menu>
+    </el-scrollbar>
+    </el-aside>
+        <el-main>
+            <el-button>{{ message }}</el-button>
+        </el-main>
+    </el-container>
+</el-container>
+
+</div>
+</body>
+<script>
+    const handleOpen = (key, keyPath) => {
+        console.log(key, keyPath)
+    }
+    const handleClose = (key, keyPath) => {
+        console.log(key, keyPath)
+    }
+    const select = (index, indexPath, item, routeRes) => {
+        console.log(index, indexPath, item, routeRes)
+    }
+
+    const App = {
+        data() {
+            return {
+                message: "Hello Element Plus",
+            };
+        },
+        methods: {
+            handleOpen,
+            handleClose,
+            select,
+        }
+    };
+
+    const app = Vue.createApp(App);
+    app.use(ElementPlus);
+
+    for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+        if (key === 'Menu') {
+            app.component('icon-menu', component)
+        } else app.component(key, component)
+    }
+
+    app.mount("#app");
+</script>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+    }
+
+    .layout-container {
+        height: 100%;
+    }
+
+    .layout-container .el-menu {
+        border-right: none;
+    }
+
+    .layout-container .el-header {
+        position: relative;
+        background-color: var(--el-color-primary-light-7);
+        color: var(--el-text-color-primary);
+    }
+
+    .layout-container .el-aside {
+        color: var(--el-text-color-primary);
+        border-right: 1px solid var(--el-border-color);
+        /*background: var(--el-color-primary-light-8);*/
+    }
+</style>
+
+</html>
