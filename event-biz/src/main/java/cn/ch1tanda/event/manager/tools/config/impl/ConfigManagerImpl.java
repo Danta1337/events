@@ -6,9 +6,11 @@ import cn.ch1tanda.event.mapper.ConfigMapper;
 import cn.ch1tanda.event.mapper.dataobject.ConfigDO;
 import cn.ch1tanda.event.utils.exception.AssertUtils;
 import cn.ch1tanda.event.utils.variable.StringUtils;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
+@Component
 public class ConfigManagerImpl implements ConfigManager {
 
     @Resource
