@@ -1,7 +1,7 @@
-package cn.ch1tanda.event.manager.file.impl;
+package cn.ch1tanda.event.manager.tools.file.impl;
 
-import cn.ch1tanda.event.manager.file.FileManager;
-import cn.ch1tanda.event.manager.file.constant.FileAccessConstant;
+import cn.ch1tanda.event.manager.tools.file.FileManager;
+import cn.ch1tanda.event.manager.tools.file.constant.FileAccessConstant;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;

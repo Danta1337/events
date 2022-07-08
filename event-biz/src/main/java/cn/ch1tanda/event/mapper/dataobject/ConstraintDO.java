@@ -1,4 +1,4 @@
-package cn.ch1tanda.event.dataobject;
+package cn.ch1tanda.event.mapper.dataobject;
 
 import lombok.Data;
 

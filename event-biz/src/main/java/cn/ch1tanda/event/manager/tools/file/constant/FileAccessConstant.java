@@ -1,7 +1,6 @@
-package cn.ch1tanda.event.manager.file.constant;
+package cn.ch1tanda.event.manager.tools.file.constant;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 //@Component
 public class FileAccessConstant {

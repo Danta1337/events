@@ -1,6 +1,6 @@
 package cn.ch1tanda.event.controller.file;
 
-import cn.ch1tanda.event.manager.file.FileManager;
+import cn.ch1tanda.event.manager.tools.file.FileManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

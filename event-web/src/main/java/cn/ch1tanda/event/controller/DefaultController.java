@@ -1,6 +1,6 @@
 package cn.ch1tanda.event.controller;
 
-import cn.ch1tanda.event.manager.file.FileManager;
+import cn.ch1tanda.event.manager.tools.file.FileManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 

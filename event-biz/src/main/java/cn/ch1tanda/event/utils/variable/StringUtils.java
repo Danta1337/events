@@ -1,4 +1,4 @@
-package cn.ch1tanda.event.utils.http;
+package cn.ch1tanda.event.utils.variable;
 
 import java.util.Objects;
 
@@ -9,10 +9,7 @@ public class StringUtils {
             return false;
         }
         String trim = str.trim();
-        if (trim.equals("")) {
-            return false;
-        }
-        return true;
+        return !trim.equals("");
     }
 
     public static boolean isBlank (String str) {

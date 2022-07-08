@@ -1,7 +1,7 @@
 package cn.ch1tanda.event.test.mapper;
 
-import cn.ch1tanda.event.dataobject.ConfigDO;
-import cn.ch1tanda.event.dataobject.query.ConfigQuery;
+import cn.ch1tanda.event.mapper.dataobject.ConfigDO;
+import cn.ch1tanda.event.mapper.dataobject.query.ConfigQuery;
 import cn.ch1tanda.event.mapper.ConfigMapper;
 import cn.ch1tanda.event.test.BaseTest;
 import com.alibaba.fastjson.JSONObject;
