@@ -15,7 +15,7 @@ public class ConfigManagerImpl implements ConfigManager {
     private ConfigMapper configMapper;
 
     @Override
-    public String getConfigByTypeAndKey(String type, String key) {
+    public String getConfigValueByTypeAndKey(String type, String key) {
         AssertUtils.isNotBlank(key, "配置key不可为空！");
         if (StringUtils.isBlank(type)) {
             type = ConfigTypeEnum.DEFAULT.getCode();

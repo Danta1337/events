@@ -1,8 +1,8 @@
 package cn.ch1tanda.event.manager.game.apex.req;
 
 import cn.ch1tanda.event.exception.ServiceInvalidException;
-import cn.ch1tanda.event.utils.http.StringUtils;
 import cn.ch1tanda.event.utils.http.annotation.HttpParam;
+import cn.ch1tanda.event.utils.variable.StringUtils;
 import lombok.Data;
 
 import java.util.Date;
