@@ -5,14 +5,13 @@ import cn.ch1tanda.event.manager.game.apex.constant.enums.PlatformEnum;
 import cn.ch1tanda.event.manager.game.apex.req.ApexMapQueryReq;
 import cn.ch1tanda.event.manager.game.apex.req.ApexPlayerStatisticsQueryReq;
 import cn.ch1tanda.event.manager.game.apex.req.ApexUIDQueryReq;
-import cn.ch1tanda.event.manager.game.apex.resp.ApexMapQueryResp;
-import cn.ch1tanda.event.manager.game.apex.resp.ApexPlayerStatisticsQueryResp;
-import cn.ch1tanda.event.manager.game.apex.resp.ApexUIDQueryResp;
+import cn.ch1tanda.event.manager.game.apex.resp.*;
 import cn.ch1tanda.event.test.BaseTest;
 import com.alibaba.fastjson.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 public class ApexManagerTest extends BaseTest {
 
@@ -42,6 +41,18 @@ public class ApexManagerTest extends BaseTest {
         request.setPlatform(PlatformEnum.PC.getCode());
         request.setName("wobush1bot");
         ApexUIDQueryResp response = apexLegendsManager.queryUIDByNameAndPlatform(request);
+        System.out.println(JSONObject.toJSONString(response));
+    }
+
+    @Test
+    public void queryApexPredatorTest() {
+        ApexPredatorResp response = apexLegendsManager.queryApexPredator();
+        System.out.println(JSONObject.toJSONString(response));
+    }
+
+    @Test
+    public void queryApexCraftingTest() {
+        List<ApexCraftingResp> response = apexLegendsManager.queryApexCrafting();
         System.out.println(JSONObject.toJSONString(response));
     }
 }
