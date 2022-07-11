@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
+import java.util.Date;
 
 @Slf4j
 @RestController
@@ -19,7 +20,7 @@ public class FileController {
     private FileManager fileManager;
 
     @GetMapping(path = "/get")
-    public String getFile (@RequestParam("key") String fileKey, @RequestParam("expire") String expire) throws ParseException {
-        return fileManager.getPreSignedURL(fileKey, expire);
+    public String getFile (@RequestParam("key") String fileKey, @RequestParam("expire") Date expire) throws ParseException {
+        return fileManager.getPreSignedUrl(fileKey, expire);
     }
 }

@@ -1,35 +1,30 @@
 package cn.ch1tanda.event.manager.tools.file.constant;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.alibaba.fastjson.JSONObject;
 
-//@Component
+import java.util.HashMap;
+import java.util.Map;
+
 public class FileAccessConstant {
 
-    public static String secretId;
+    public static final String SECRET_ID_CONFIG_KEY = "file.access.secret.id";
 
-    public static String secretKey;
+    public static final String SECRET_KEY_CONFIG_KEY = "file.access.secret.key";
 
-    public static String region;
+    public static final String REGION_CONFIG_KEY = "file.access.region";
 
-    public static String bucketName;
+    public static final String BUCKET_NAME_CONFIG_KEY = "file.access.bucket.name";
 
-    @Value("${file.access.secretId}")
-    private void setSecretId(String secretId) {
-        FileAccessConstant.secretId = secretId;
-    }
+    public static String REGION;
 
-    @Value("${file.access.secretKey}")
-    private void setSecretKey(String secretKey) {
-        FileAccessConstant.secretKey = secretKey;
-    }
+    public static String BUCKET_NAME;
 
-    @Value("${file.access.region}")
-    public void setRegion(String region) {
-        FileAccessConstant.region = region;
-    }
-
-    @Value("${file.access.bucketName}")
-    public void setBucketName(String bucketName) {
-        FileAccessConstant.bucketName = bucketName;
+    public static void main(String[] args) {
+        Map<String, String> map = new HashMap<>();
+        map.put("String", "String");
+        map.put("String1", "String");
+        map.put("String2", "String");
+        map.put("String3", "String");
+        System.out.println(JSONObject.toJSONString(map));
     }
 }

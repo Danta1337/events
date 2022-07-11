@@ -1,46 +1,95 @@
 package cn.ch1tanda.event.manager.tools.file.impl;
 
+import cn.ch1tanda.event.manager.tools.config.ConfigManager;
+import cn.ch1tanda.event.manager.tools.config.constant.enums.ConfigTypeEnum;
 import cn.ch1tanda.event.manager.tools.file.FileManager;
 import cn.ch1tanda.event.manager.tools.file.constant.FileAccessConstant;
+import cn.ch1tanda.event.utils.exception.AssertUtils;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
 import com.qcloud.cos.http.HttpProtocol;
+import com.qcloud.cos.model.PutObjectRequest;
+import com.qcloud.cos.model.PutObjectResult;
 import com.qcloud.cos.region.Region;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+import java.io.File;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 
+// TODO 定时关闭CosClient
 @Component
 public class FileManagerImpl implements FileManager {
 
+    @Resource
+    private ConfigManager configManager;
+
     private static COSClient cosClient;
 
-    private static final String DATE_FORMAT_PATTERN = "yyyyMMddHHmmss";
-
     @Override
-    public String getPreSignedURL(String key, String expire) throws ParseException {
-        return this.getPreSignedURL(key, new SimpleDateFormat(DATE_FORMAT_PATTERN).parse(expire));
+    public boolean doesObjectExist(String key) {
+        AssertUtils.isNotBlank(key, "File key can not be null!");
+        return this.getCosClient().doesObjectExist(FileAccessConstant.BUCKET_NAME, key);
     }
 
     @Override
-    public String getPreSignedURL(String key, Date expire) {
-        return getCosClient().generatePresignedUrl(FileAccessConstant.bucketName, key, expire).toString();
+    public String getObjectUrl(String key) {
+        AssertUtils.isNotBlank(key, "File key can not be null!");
+        return this.getCosClient().getObjectUrl(FileAccessConstant.BUCKET_NAME, key).toString();
     }
 
-    private static COSClient getCosClient () {
+    @Override
+    public String getPreSignedUrl(String key, Date expirationTime) {
+        AssertUtils.isNotBlank(key, "File key can not be null!");
+        AssertUtils.afterNow(expirationTime, "Expiration time must be after now");
+        return getCosClient().generatePresignedUrl(FileAccessConstant.BUCKET_NAME, key, expirationTime).toString();
+    }
+
+    @Override
+    public String uploadFile(File file, String key) {
+        checkCosClient();
+        AssertUtils.isTrue(Objects.nonNull(file), "File can not be null!");
+        AssertUtils.isNotBlank(key, "File key can not be null!");
+        PutObjectRequest putRequest = new PutObjectRequest(FileAccessConstant.BUCKET_NAME, key, file);
+        PutObjectResult putObjectResult = this.getCosClient().putObject(putRequest);
+        return this.getObjectUrl(key);
+    }
+
+    @Override
+    public void deleteFile(String key) {
+        AssertUtils.isNotBlank(key, "File key can not be null!");
+        this.getCosClient().deleteObject(FileAccessConstant.BUCKET_NAME, key);
+    }
+
+    private COSClient getCosClient() {
         if (Objects.isNull(cosClient)) {
-            BasicCOSCredentials cred = new BasicCOSCredentials(FileAccessConstant.secretId, FileAccessConstant.secretKey);
-            ClientConfig clientConfig = new ClientConfig();
-            clientConfig.setRegion(new Region(FileAccessConstant.region));
-            clientConfig.setHttpProtocol(HttpProtocol.https);
-            cosClient = new COSClient(cred, clientConfig);
+            initCosClient();
         }
         return cosClient;
     }
 
+    private void checkCosClient() {
+        if (Objects.isNull(cosClient)) {
+            initCosClient();
+        }
+    }
 
+    private void initCosClient() {
+        // 第一次请求时初始化COSClient，后续基本不会再次初始化，所以不考虑缓存配置
+        Map<String, String> fileConfigs = configManager.getConfigMapByConfigType(ConfigTypeEnum.FILE.getCode());
+        FileAccessConstant.REGION = fileConfigs.get(FileAccessConstant.REGION_CONFIG_KEY);
+        FileAccessConstant.BUCKET_NAME = fileConfigs.get(FileAccessConstant.BUCKET_NAME_CONFIG_KEY);
+        BasicCOSCredentials cred = new BasicCOSCredentials(fileConfigs.get(FileAccessConstant.SECRET_ID_CONFIG_KEY)
+                , fileConfigs.get(FileAccessConstant.SECRET_KEY_CONFIG_KEY));
+        ClientConfig clientConfig = new ClientConfig();
+        clientConfig.setRegion(new Region(FileAccessConstant.REGION));
+        clientConfig.setHttpProtocol(HttpProtocol.https);
+        cosClient = new COSClient(cred, clientConfig);
+    }
 }
