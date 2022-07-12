@@ -13,4 +13,13 @@ public interface EmailService {
      * @return 处理结果
      */
     boolean sendText(String to, String subject, String text);
+
+    /**
+     * 发送HTML格式邮件
+     * @param to 收件人邮箱
+     * @param subject 邮件主题
+     * @param content HTML格式内容
+     * @return 处理结果
+     */
+    boolean sendHtml(String to, String subject, String content);
 }
