@@ -1,4 +1,4 @@
-package cn.ch1tanda.event;
+package cn.ch1tanda.event.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
