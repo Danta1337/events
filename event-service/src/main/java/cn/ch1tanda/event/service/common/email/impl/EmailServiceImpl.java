@@ -28,6 +28,6 @@ public class EmailServiceImpl implements EmailService {
             smm.setText(text);
             mailSender.send(smm);
         });
-        return false;
+        return true;
     }
 }
