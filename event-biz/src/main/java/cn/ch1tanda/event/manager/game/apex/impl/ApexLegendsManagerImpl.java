@@ -10,8 +10,7 @@ import cn.ch1tanda.event.manager.game.apex.req.ApexMapQueryReq;
 import cn.ch1tanda.event.manager.game.apex.req.ApexPlayerStatisticsQueryReq;
 import cn.ch1tanda.event.manager.game.apex.req.ApexUIDQueryReq;
 import cn.ch1tanda.event.manager.game.apex.resp.*;
-import cn.ch1tanda.event.manager.tools.config.ConfigManager;
-import cn.ch1tanda.event.manager.tools.config.constant.enums.ConfigTypeEnum;
+import cn.ch1tanda.event.mapper.ConfigMapper;
 import cn.ch1tanda.event.utils.http.HttpUtils;
 import cn.ch1tanda.event.utils.variable.StringUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +27,7 @@ public class ApexLegendsManagerImpl implements ApexLegendsManager {
     private RedisManager redisManager;
 
     @Resource
-    private ConfigManager configManager;
+    private ConfigMapper configMapper;
 
     public static final String REQUEST_URL = "https://api.mozambiquehe.re";
 
@@ -86,7 +85,7 @@ public class ApexLegendsManagerImpl implements ApexLegendsManager {
             log.error("[APEX]获取APEX接口APIKey缓存时异常", e);
         }
         if (StringUtils.isBlank(APIKey)) {
-            String configValue = configManager.getConfigValueByTypeAndKey(ConfigTypeEnum.GAME.getCode(), ApexConstant.APEX_API_KEY_CONFIG_KEY);
+            String configValue = configMapper.selectConfigValueByConfigTypeAndConfigKey(ApexConstant.APEX_CONFIG_TYPE, ApexConstant.APEX_API_KEY_CONFIG_KEY);
             if (StringUtils.isNotBlank(configValue)) {
                 redisManager.set(ApexConstant.APEX_API_KEY_REDIS_KEY, configValue, (long) (1000 * 60 * 60));
             } else {

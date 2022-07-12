@@ -1,9 +1,8 @@
 package cn.ch1tanda.event.manager.tools.file.impl;
 
-import cn.ch1tanda.event.manager.tools.config.ConfigManager;
-import cn.ch1tanda.event.manager.tools.config.constant.enums.ConfigTypeEnum;
 import cn.ch1tanda.event.manager.tools.file.FileManager;
 import cn.ch1tanda.event.manager.tools.file.constant.FileAccessConstant;
+import cn.ch1tanda.event.mapper.ConfigMapper;
 import cn.ch1tanda.event.utils.exception.AssertUtils;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
@@ -16,9 +15,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
@@ -28,7 +24,7 @@ import java.util.Objects;
 public class FileManagerImpl implements FileManager {
 
     @Resource
-    private ConfigManager configManager;
+    private ConfigMapper configMapper;
 
     private static COSClient cosClient;
 
@@ -82,7 +78,7 @@ public class FileManagerImpl implements FileManager {
 
     private void initCosClient() {
         // 第一次请求时初始化COSClient，后续基本不会再次初始化，所以不考虑缓存配置
-        Map<String, String> fileConfigs = configManager.getConfigMapByConfigType(ConfigTypeEnum.FILE.getCode());
+        Map<String, String> fileConfigs = configMapper.selectAllConfigKeyAndConfigValueByConfigType(FileAccessConstant.FILE_CONFIG_TYPE);
         FileAccessConstant.REGION = fileConfigs.get(FileAccessConstant.REGION_CONFIG_KEY);
         FileAccessConstant.BUCKET_NAME = fileConfigs.get(FileAccessConstant.BUCKET_NAME_CONFIG_KEY);
         BasicCOSCredentials cred = new BasicCOSCredentials(fileConfigs.get(FileAccessConstant.SECRET_ID_CONFIG_KEY)

@@ -1,11 +1,8 @@
 package cn.ch1tanda.event.manager.tools.file.constant;
 
-import com.alibaba.fastjson.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
 public class FileAccessConstant {
+
+    public static final String FILE_CONFIG_TYPE = "FILE";
 
     public static final String SECRET_ID_CONFIG_KEY = "file.access.secret.id";
 
@@ -18,13 +15,4 @@ public class FileAccessConstant {
     public static String REGION;
 
     public static String BUCKET_NAME;
-
-    public static void main(String[] args) {
-        Map<String, String> map = new HashMap<>();
-        map.put("String", "String");
-        map.put("String1", "String");
-        map.put("String2", "String");
-        map.put("String3", "String");
-        System.out.println(JSONObject.toJSONString(map));
-    }
 }

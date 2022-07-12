@@ -1,7 +1,7 @@
-package cn.ch1tanda.event.manager.tools.config.impl;
+package cn.ch1tanda.event.service.common.config.impl;
 
-import cn.ch1tanda.event.manager.tools.config.ConfigManager;
-import cn.ch1tanda.event.manager.tools.config.constant.enums.ConfigTypeEnum;
+import cn.ch1tanda.event.service.common.config.ConfigService;
+import cn.ch1tanda.event.service.common.config.constant.enums.ConfigTypeEnum;
 import cn.ch1tanda.event.mapper.ConfigMapper;
 import cn.ch1tanda.event.mapper.dataobject.ConfigDO;
 import cn.ch1tanda.event.mapper.dataobject.query.ConfigQuery;
@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class ConfigManagerImpl implements ConfigManager {
+public class ConfigServiceImpl implements ConfigService {
 
     @Resource
     private ConfigMapper configMapper;

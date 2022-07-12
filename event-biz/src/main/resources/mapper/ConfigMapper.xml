@@ -62,20 +62,27 @@
     <select id="fullQuery" resultType="cn.ch1tanda.event.mapper.dataobject.ConfigDO" resultMap="baseResultMap">
         SELECT <include refid="baseColumn"/>
         FROM config
-        <include refid="baseCondition"/>
+        <include refid="baseCondition"/>;
     </select>
 
     <select id="pageQuery" resultType="cn.ch1tanda.event.mapper.dataobject.ConfigDO" resultMap="baseResultMap">
         SELECT <include refid="baseColumn"/>
         FROM config
         <include refid="baseCondition"/>
-        LIMIT #{startPos}, #{rows}
+        LIMIT #{startPos}, #{rows};
     </select>
     <select id="selectConfigValueByConfigTypeAndConfigKey" resultType="java.lang.String">
         SELECT config_value
         FROM config
         WHERE config_type = #{configType}
         AND config_key = #{configKey}
+        AND is_deleted = 0;
+    </select>
+    <select id="selectAllConfigKeyAndConfigValueByConfigType"
+            resultType="java.util.Map">
+        SELECT config_key, config_value
+        FROM config
+        WHERE config_type = #{configType}
         AND is_deleted = 0;
     </select>
 

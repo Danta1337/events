@@ -11,6 +11,7 @@
     <modules>
         <module>event-web</module>
         <module>event-biz</module>
+        <module>event-service</module>
     </modules>
 
     <properties>

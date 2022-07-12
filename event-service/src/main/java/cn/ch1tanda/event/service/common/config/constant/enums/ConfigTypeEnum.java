@@ -1,4 +1,4 @@
-package cn.ch1tanda.event.manager.tools.config.constant.enums;
+package cn.ch1tanda.event.service.common.config.constant.enums;
 
 public enum ConfigTypeEnum {
     DEFAULT("DEFAULT", "默认配置类型"),

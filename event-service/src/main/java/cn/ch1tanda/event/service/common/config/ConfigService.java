@@ -1,11 +1,11 @@
-package cn.ch1tanda.event.manager.tools.config;
+package cn.ch1tanda.event.service.common.config;
 
 import java.util.Map;
 
 /**
  * 数据库配置服务
  */
-public interface ConfigManager {
+public interface ConfigService {
 
     /**
      * 根据configType与configKey获取配置
