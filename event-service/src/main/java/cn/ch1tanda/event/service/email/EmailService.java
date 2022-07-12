@@ -1,4 +1,4 @@
-package cn.ch1tanda.event.service.common.email;
+package cn.ch1tanda.event.service.email;
 
 /**
  * 电子邮件服务

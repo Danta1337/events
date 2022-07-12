@@ -1,4 +1,4 @@
-package cn.ch1tanda.event.service.common.config;
+package cn.ch1tanda.event.service.config;
 
 import java.util.Map;
 

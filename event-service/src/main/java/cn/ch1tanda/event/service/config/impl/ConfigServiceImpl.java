@@ -1,7 +1,7 @@
-package cn.ch1tanda.event.service.common.config.impl;
+package cn.ch1tanda.event.service.config.impl;
 
-import cn.ch1tanda.event.service.common.config.ConfigService;
-import cn.ch1tanda.event.service.common.config.constant.enums.ConfigTypeEnum;
+import cn.ch1tanda.event.service.config.ConfigService;
+import cn.ch1tanda.event.service.config.constant.enums.ConfigTypeEnum;
 import cn.ch1tanda.event.mapper.ConfigMapper;
 import cn.ch1tanda.event.mapper.dataobject.ConfigDO;
 import cn.ch1tanda.event.mapper.dataobject.query.ConfigQuery;
