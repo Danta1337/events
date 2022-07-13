@@ -1,6 +1,6 @@
 package cn.ch1tanda.event.test.service.common;
 
-import cn.ch1tanda.event.service.common.email.EmailService;
+import cn.ch1tanda.event.service.generic.email.EmailService;
 import cn.ch1tanda.event.test.BaseTest;
 import org.junit.jupiter.api.Test;
 
