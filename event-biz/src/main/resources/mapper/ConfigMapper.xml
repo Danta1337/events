@@ -79,8 +79,9 @@
         AND is_deleted = 0;
     </select>
     <select id="selectAllConfigKeyAndConfigValueByConfigType"
-            resultType="java.util.Map">
-        SELECT config_key, config_value
+            resultType="cn.ch1tanda.event.mapper.dataobject.ConfigDO"
+            resultMap="baseResultMap">
+        SELECT <include refid="baseColumn" />
         FROM config
         WHERE config_type = #{configType}
         AND is_deleted = 0;

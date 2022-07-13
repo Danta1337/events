@@ -18,8 +18,7 @@ public interface ConfigMapper {
 
     String selectConfigValueByConfigTypeAndConfigKey(@Param("configType") String configType, @Param("configKey") String configKey);
 
-    @MapKey("config_key")
-    Map<String, String> selectAllConfigKeyAndConfigValueByConfigType(@Param("configType") String configType);
+    List<ConfigDO> selectAllConfigKeyAndConfigValueByConfigType(@Param("configType") String configType);
 
     List<ConfigDO> fullQuery(ConfigQuery query);
 

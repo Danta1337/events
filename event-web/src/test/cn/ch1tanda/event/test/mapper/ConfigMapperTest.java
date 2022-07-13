@@ -45,4 +45,9 @@ public class ConfigMapperTest extends BaseTest {
         System.out.println(configDO);
     }
 
+    @Test
+    public void selectAllConfigKeyAndConfigValueByConfigTypeTest() {
+        List<ConfigDO> game = configMapper.selectAllConfigKeyAndConfigValueByConfigType("FILE");
+        System.out.println(JSONObject.toJSONString(game));
+    }
 }

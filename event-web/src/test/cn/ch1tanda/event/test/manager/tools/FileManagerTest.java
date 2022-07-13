@@ -2,7 +2,6 @@ package cn.ch1tanda.event.test.manager.tools;
 
 import cn.ch1tanda.event.manager.tools.file.FileManager;
 import cn.ch1tanda.event.test.BaseTest;
-import com.alibaba.fastjson.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import javax.annotation.Resource;
@@ -37,7 +36,7 @@ public class FileManagerTest extends BaseTest {
     @Test
     public void uploadFileTest() {
         File file = new File("/Users/ch1tanda/Downloads/cute.jpeg");
-        String objectUrl = fileManager.uploadFile(file, "loli/" + file.getName());
+        String objectUrl = fileManager.uploadFile(file, file.getName());
         System.out.println(objectUrl);
     }
 
