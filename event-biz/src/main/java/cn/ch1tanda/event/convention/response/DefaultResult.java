@@ -32,6 +32,11 @@ public class DefaultResult<T> implements Result<T>, Serializable {
     }
 
     @Override
+    public boolean isSuccess() {
+        return this.code.equals("0");
+    }
+
+    @Override
     public String getCode() {
         return this.code;
     }

@@ -1,4 +1,4 @@
-package cn.ch1tanda.event.service.email.constant;
+package cn.ch1tanda.event.service.generic.email.constant;
 
 public class EmailConfigConstants {
 

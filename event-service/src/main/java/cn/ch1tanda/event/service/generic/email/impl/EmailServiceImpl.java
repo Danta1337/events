@@ -1,8 +1,7 @@
-package cn.ch1tanda.event.service.email.impl;
+package cn.ch1tanda.event.service.generic.email.impl;
 
-import cn.ch1tanda.event.service.email.EmailService;
-import cn.ch1tanda.event.service.email.constant.EmailConfigConstants;
-import com.alibaba.fastjson.JSONObject;
+import cn.ch1tanda.event.service.generic.email.EmailService;
+import cn.ch1tanda.event.service.generic.email.constant.EmailConfigConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

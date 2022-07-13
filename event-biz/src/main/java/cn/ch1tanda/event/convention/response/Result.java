@@ -11,4 +11,6 @@ public interface Result<T>{
     String getMessage();
 
     T getData();
+
+    boolean isSuccess();
 }
