@@ -78,20 +78,9 @@ public class ApexLegendsManagerImpl implements ApexLegendsManager {
      * 获取调用第三方平台的APIkey
      */
     private String getAuthAPIKey () {
-        String APIKey = null;
-        try {
-            APIKey = redisManager.get(ApexConstant.APEX_API_KEY_REDIS_KEY);
-        } catch (Exception e) {
-            log.error("[APEX]获取APEX接口APIKey缓存时异常", e);
+        if (StringUtils.isBlank(ApexConstant.APEX_API_KEY)) {
+            ApexConstant.APEX_API_KEY = configMapper.selectConfigValueByConfigTypeAndConfigKey(ApexConstant.APEX_CONFIG_TYPE, ApexConstant.APEX_API_KEY_CONFIG_KEY);
         }
-        if (StringUtils.isBlank(APIKey)) {
-            String configValue = configMapper.selectConfigValueByConfigTypeAndConfigKey(ApexConstant.APEX_CONFIG_TYPE, ApexConstant.APEX_API_KEY_CONFIG_KEY);
-            if (StringUtils.isNotBlank(configValue)) {
-                redisManager.set(ApexConstant.APEX_API_KEY_REDIS_KEY, configValue, (long) (1000 * 60 * 60));
-            } else {
-                throw new ServiceInvalidException("获取调用第三方平台APIKey失败！");
-            }
-        }
-        return APIKey;
+        return ApexConstant.APEX_API_KEY;
     }
 }

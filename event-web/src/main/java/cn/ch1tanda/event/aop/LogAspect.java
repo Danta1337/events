@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LogAspect {
 
-    @Pointcut(value = "execution(* cn.ch1tanda.event.controller..*.*(..))")
+    @Pointcut(value = "execution(* cn.ch1tanda.event.controller..*.*(..)) || execution(* cn.ch1tanda.event.manager..*.*(..))")
     public void pointcut() {
     }
 
@@ -25,6 +25,7 @@ public class LogAspect {
             result = joinPoint.proceed();
         } catch (Exception e) {
             log.info("Exception method:{}", joinPoint.getSignature(), e);
+            throw e;
         }
         log.info("Response {}", JSONObject.toJSONString(result));
         return result;

@@ -13,5 +13,5 @@ public class ApexMapQueryReq extends ApexCommonReq {
      * if use, please use 2 because the response json object can not handle the condition of 2
      */
     @HttpParam
-    private String version;
+    private String version = "2";
 }

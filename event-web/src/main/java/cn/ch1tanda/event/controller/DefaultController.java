@@ -17,4 +17,9 @@ public class DefaultController {
         return "index";
     }
 
+    @RequestMapping(path = {"/favicon.ico", "/apple-touch-icon.png", "/apple-touch-icon-precomposed.png"})
+    public String getFavicon () {
+        // 页面图标，重定向至静态资源
+        return "redirect:/static/icon/favicon.ico";
+    }
 }
