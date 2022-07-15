@@ -16,48 +16,28 @@
 </div>
 <div class="mdui-card mdui-center mdui-m-t-5" style="max-width: 600px">
     <!-- 卡片的标题和副标题 -->
-    <div class="mdui-card-primary">
-        <div class="mdui-card-primary-title mdui-text-center">注册</div>
+    <div class="mdui-card-primary mdui-m-t-5">
+        <div class="mdui-typo-display-2 mdui-text-center">注册成功</div>
         <div class="mdui-card-primary-subtitle mdui-text-center">请输入信息</div>
     </div>
 
     <!-- 卡片的内容 -->
     <div class="mdui-card-content">
-        <form class="mdui-m-x-5" action="/register" method="post">
+        <form class="mdui-m-x-5">
             <div class="mdui-textfield mdui-textfield-floating-label">
                 <label class="mdui-textfield-label">用户名</label>
-                <input name="username" class="mdui-textfield-input" type="text" required/>
+                <input disabled name="username" class="mdui-textfield-input" type="text" required/>
             </div>
-            <div class="mdui-textfield mdui-textfield-floating-label">
-                <label class="mdui-textfield-label">密码</label>
-                <input name="password" class="mdui-textfield-input" type="password" required minlength="6"/>
-            </div>
+
             <div class="mdui-textfield mdui-textfield-floating-label">
                 <label class="mdui-textfield-label">电子邮箱</label>
-                <input name="email" class="mdui-textfield-input" type="email" required minlength="6"/>
+                <input disabled name="email" class="mdui-textfield-input" type="email" required minlength="6"/>
             </div>
 
-            <div class="mdui-container-fluid">
-                <div class="mdui-row">
-                    <div class="mdui-col-xs-9 mdui-p-l-0">
-                        <div class="mdui-textfield mdui-textfield-floating-label">
-                            <label class="mdui-textfield-label">验证码</label>
-                            <input name="verifyCode" class="mdui-textfield-input" type="text" required minlength="6" maxlength="6"/>
-                        </div>
-                    </div>
-                    <div class="mdui-col-xs-3 mdui-p-r-0 mdui-p-t-5">
-                        <button name="sendVerifyCodeBtn" onclick="sendVerifyCode()" type="button" class="mdui-btn mdui-btn-raised  mdui-float-right"  style="width: 100%">发送验证码</button>
-                    </div>
-                </div>
-            </div>
-
-            <button type="sumbit" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center mdui-m-t-5" style="width: 100%">
-                提交
-            </button>
+            <a class="mdui-btn mdui-btn-block mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-m-y-5">
+                前往登录
+            </a>
         </form>
-    </div>
-    <div class="mdui-card-actions">
-        <a href="user-login.html" class="mdui-btn mdui-ripple mdui-float-right">登录</a>
     </div>
 
 </div>

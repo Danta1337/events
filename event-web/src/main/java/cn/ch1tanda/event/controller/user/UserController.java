@@ -1,9 +1,18 @@
 package cn.ch1tanda.event.controller.user;
 
+import cn.ch1tanda.event.convention.response.DefaultResult;
+import cn.ch1tanda.event.convention.response.Result;
 import cn.ch1tanda.event.manager.framework.RedisManager;
+import cn.ch1tanda.event.manager.user.UserManager;
+import cn.ch1tanda.event.manager.user.req.RegisterReq;
+import cn.ch1tanda.event.manager.user.resp.RegisterResp;
+import cn.ch1tanda.event.model.User;
+import cn.ch1tanda.event.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
@@ -11,23 +20,47 @@ import java.util.Random;
 
 @Controller
 public class UserController {
-    Random random = new Random(new Date().getTime());
 
-    RedisManager redisManager;
+    UserService userService;
+    UserManager userManager;
+    PasswordEncoder passwordEncoder;
 
     @Autowired
-    void setRedisManager(RedisManager redisManager) {
-        this.redisManager = redisManager;
+    void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Autowired
+    void setUserManager(UserManager userManager) {
+        this.userManager = userManager;
+    }
+
+    @Autowired
+    void setEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/register/sendVerifyCode")
     @ResponseBody
     public void sendVerifyCode(String email) {
-        StringBuilder verifyCodeBuilder = new StringBuilder();
-        for (int i = 0; i < 6; i++) {
-            verifyCodeBuilder.append(random.nextInt(10));
+        userService.sendEmailVerificationCode(email);
+    }
+
+    @PostMapping("/register")
+    @ResponseBody
+    public Result<Void> register(String email, String username, String password, String verifyCode) {
+        if (!userService.verifyEmailVerificationCode(email, verifyCode)) {
+            return new DefaultResult<>("1", "verify code is not correct");
         }
 
-        redisManager.set(email, verifyCodeBuilder.toString(), 1000 * 60 * 5L);
-    }
+        String encodedPassword = passwordEncoder.encode(password);
+        RegisterReq registerReq = new RegisterReq(
+                User.builder()
+                        .email(email)
+                        .username(username)
+                        .password(encodedPassword)
+                        .build());
+
+        return userManager.register(registerReq);
+    };
 }
