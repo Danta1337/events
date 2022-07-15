@@ -2,53 +2,43 @@ package cn.ch1tanda.event.controller.user;
 
 import cn.ch1tanda.event.convention.response.DefaultResult;
 import cn.ch1tanda.event.convention.response.Result;
-import cn.ch1tanda.event.manager.framework.RedisManager;
+import cn.ch1tanda.event.convention.response.Results;
 import cn.ch1tanda.event.manager.user.UserManager;
 import cn.ch1tanda.event.manager.user.req.RegisterReq;
 import cn.ch1tanda.event.manager.user.resp.RegisterResp;
 import cn.ch1tanda.event.model.User;
 import cn.ch1tanda.event.service.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
-import java.util.Random;
+import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 
 @Controller
 public class UserController {
 
-    UserService userService;
-    UserManager userManager;
-    PasswordEncoder passwordEncoder;
+    @Resource
+    private UserService userService;
 
-    @Autowired
-    void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+    @Resource
+    private UserManager userManager;
 
-    @Autowired
-    void setUserManager(UserManager userManager) {
-        this.userManager = userManager;
-    }
-
-    @Autowired
-    void setEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/register/sendVerifyCode")
     @ResponseBody
-    public void sendVerifyCode(String email) {
+    public Result<Boolean> sendVerifyCode(String email) {
         userService.sendEmailVerificationCode(email);
+        return Results.success(true);
     }
 
     @PostMapping("/register")
     @ResponseBody
-    public Result<Void> register(String email, String username, String password, String verifyCode) {
+    public Result<Boolean> register(String email, String username, String password, String verifyCode) {
         if (!userService.verifyEmailVerificationCode(email, verifyCode)) {
             return new DefaultResult<>("1", "verify code is not correct");
         }
@@ -60,7 +50,7 @@ public class UserController {
                         .username(username)
                         .password(encodedPassword)
                         .build());
-
-        return userManager.register(registerReq);
+        RegisterResp registerResult = userManager.register(registerReq);
+        return registerResult.isSuccess() ? Results.success(true) : Results.success(false);
     };
 }

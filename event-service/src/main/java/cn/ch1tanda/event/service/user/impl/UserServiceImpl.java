@@ -2,7 +2,6 @@ package cn.ch1tanda.event.service.user.impl;
 
 import cn.ch1tanda.event.exception.ServiceInvalidException;
 import cn.ch1tanda.event.manager.framework.RedisManager;
-import cn.ch1tanda.event.service.generic.config.ConfigService;
 import cn.ch1tanda.event.service.generic.email.EmailService;
 import cn.ch1tanda.event.service.user.UserService;
 import cn.ch1tanda.event.service.user.constant.UserConstants;

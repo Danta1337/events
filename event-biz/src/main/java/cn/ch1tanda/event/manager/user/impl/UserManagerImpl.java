@@ -1,6 +1,5 @@
 package cn.ch1tanda.event.manager.user.impl;
 
-import cn.ch1tanda.event.convention.response.Results;
 import cn.ch1tanda.event.manager.user.UserManager;
 import cn.ch1tanda.event.manager.user.req.AuthReq;
 import cn.ch1tanda.event.manager.user.req.GetAuthoritiesReq;
@@ -11,13 +10,10 @@ import cn.ch1tanda.event.manager.user.resp.RegisterResp;
 import cn.ch1tanda.event.mapper.AuthorityMapper;
 import cn.ch1tanda.event.mapper.UserMapper;
 import cn.ch1tanda.event.model.User;
-import cn.ch1tanda.event.model.UserExample;
-import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.crypto.Data;
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -25,18 +21,11 @@ import java.util.Optional;
 @Component
 public class UserManagerImpl implements UserManager {
 
-    UserMapper userMapper;
-    AuthorityMapper authorityMapper;
+    @Resource
+    private UserMapper userMapper;
 
-    @Autowired
-    void setUserMapper(UserMapper userMapper) {
-        this.userMapper = userMapper;
-    }
-
-    @Autowired
-    void setAuthorityMapper(AuthorityMapper authorityMapper) {
-        this.authorityMapper = authorityMapper;
-    }
+    @Resource
+    private AuthorityMapper authorityMapper;
 
     @Override
     @Transactional
