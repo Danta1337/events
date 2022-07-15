@@ -4,7 +4,6 @@ import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Map;
 
 @Data
@@ -40,13 +39,15 @@ public class ApexMapQueryResp extends ApexErrorResp implements Serializable {
     public static class MapRotationDetails {
         /**
          * 轮换开始时间
+         * 秒级别时间戳
          */
-        private Date start;
+        private Long start;
 
         /**
          * 轮换结束时间
+         * 秒级别时间戳
          */
-        private Date end;
+        private Long end;
 
         /**
          * 轮换地图名称
