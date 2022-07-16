@@ -3,6 +3,7 @@ package cn.ch1tanda.event.controller.user;
 import cn.ch1tanda.event.convention.response.DefaultResult;
 import cn.ch1tanda.event.convention.response.Result;
 import cn.ch1tanda.event.convention.response.Results;
+import cn.ch1tanda.event.exception.ServiceException;
 import cn.ch1tanda.event.manager.user.UserManager;
 import cn.ch1tanda.event.manager.user.req.RegisterReq;
 import cn.ch1tanda.event.manager.user.resp.RegisterResp;
@@ -10,14 +11,17 @@ import cn.ch1tanda.event.model.User;
 import cn.ch1tanda.event.service.user.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Controller
+@Validated
 public class UserController {
 
     @Resource
@@ -31,7 +35,12 @@ public class UserController {
 
     @GetMapping("/register/sendVerifyCode")
     @ResponseBody
-    public Result<Boolean> sendVerifyCode(String email) {
+    public Result<Boolean> sendVerifyCode(
+            @NotBlank(message = "email can not be blank") String email,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new ServiceException("1", "validation error");
+        }
         userService.sendEmailVerificationCode(email);
         return Results.success(true);
     }
