@@ -55,11 +55,19 @@ public class UserServiceImpl implements UserService {
     /**
      * 随机生成六位数字，并转换为字符串返回
      */
-    private String generateRandomNumber () {
-        double random = Math.random();
-        BigDecimal randomDecimal = new BigDecimal(String.valueOf(random));
-        BigDecimal integerPart = randomDecimal.multiply(new BigDecimal("1000000")).setScale(0, RoundingMode.DOWN);
-        return integerPart.toString();
+    public static String generateRandomNumber () {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 6; i++) {
+            // 生成随机0～1的double数字
+            double random = Math.random();
+            // 转换为BigDecimal
+            BigDecimal randomDecimal = new BigDecimal(String.valueOf(random));
+            // *10 并且舍弃小数部分
+            BigDecimal integerPart = randomDecimal.multiply(new BigDecimal("10")).setScale(0, RoundingMode.DOWN);
+            // append到字符串后面
+            sb.append(integerPart);
+        }
+        return sb.toString();
     }
 
 }
