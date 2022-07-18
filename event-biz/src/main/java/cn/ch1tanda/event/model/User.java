@@ -2,11 +2,11 @@ package cn.ch1tanda.event.model;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @EqualsAndHashCode
-@Builder
 public class User {
     /**
      *
@@ -82,11 +82,11 @@ public class User {
 
     private String email;
 
-    String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    void setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 

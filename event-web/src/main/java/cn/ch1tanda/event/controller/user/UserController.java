@@ -13,12 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Controller
 @Validated
@@ -36,30 +35,31 @@ public class UserController {
     @GetMapping("/register/sendVerifyCode")
     @ResponseBody
     public Result<Boolean> sendVerifyCode(
-            @NotBlank(message = "email can not be blank") String email,
-            BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new ServiceException("1", "validation error");
-        }
+            @NotBlank String email) {
         userService.sendEmailVerificationCode(email);
         return Results.success(true);
     }
 
     @PostMapping("/register")
     @ResponseBody
-    public Result<Boolean> register(String email, String username, String password, String verifyCode) {
+    public Result<Boolean> register(
+            @NotBlank String email,
+            @NotBlank String username,
+            @NotBlank String password,
+            @NotBlank String verifyCode) {
         if (!userService.verifyEmailVerificationCode(email, verifyCode)) {
-            return new DefaultResult<>("1", "verify code is not correct");
+            return Results.failure("1", "verify code is not correct");
         }
 
         String encodedPassword = passwordEncoder.encode(password);
-        RegisterReq registerReq = new RegisterReq(
-                User.builder()
-                        .email(email)
-                        .username(username)
-                        .password(encodedPassword)
-                        .build());
+        User user = new User();
+        user.setEmail(email);
+        user.setUsername(username);
+        user.setPassword(encodedPassword);
+
+        RegisterReq registerReq = new RegisterReq(user);
         RegisterResp registerResult = userManager.register(registerReq);
-        return registerResult.isSuccess() ? Results.success(true) : Results.success(false);
+
+        return registerResult.isSuccess() ? Results.success(true) : Results.failure("1", registerResult.getMessage());
     };
 }

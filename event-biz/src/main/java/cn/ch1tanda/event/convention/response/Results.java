@@ -10,6 +10,6 @@ public class Results {
     }
 
     public static <T> Result<T> failure (String code, String message) {
-        return new DefaultResult<T>(code, message);
+        return new DefaultResult<>(code, message);
     }
 }
