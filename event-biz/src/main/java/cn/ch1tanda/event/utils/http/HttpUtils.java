@@ -6,8 +6,11 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.codec.Charsets;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -27,7 +30,7 @@ public class HttpUtils {
     private static HttpClient httpClient;
 
     public static <T> List<T> GETArray (String URL, Class<T> responseType) {
-        return GETArray(URL, new HashMap<String, String>(), responseType);
+        return GETArray(URL, new HashMap<>(), responseType);
     }
 
     public static void main(String[] args) {
@@ -53,7 +56,7 @@ public class HttpUtils {
     }
 
     public static <T> T GET (String URL, Class<T> responseType) {
-        return GET(URL, new HashMap<String, String>(), responseType);
+        return GET(URL, new HashMap<>(), responseType);
     }
 
     public static <T> T GET (String URL, Map<String, String> param, Class<T> responseType) {
@@ -70,7 +73,16 @@ public class HttpUtils {
     }
 
     public static <T> T POST (String URL, Object request, Class<T> responseType) {
-        return null;
+        HttpPost post = new HttpPost(URL);
+        StringEntity se = new StringEntity(JSONObject.toJSONString(request), Charsets.toCharset("UTF-8"));
+        post.setEntity(se);
+        try {
+            HttpResponse response = getClient().execute(post);
+            String responseStr = EntityUtils.toString(response.getEntity());
+            return JSONObject.parseObject(responseStr, responseType);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static HttpClient getClient () {
@@ -108,7 +120,7 @@ public class HttpUtils {
                     }
                 }).forEach(item -> {
                     String key;
-                    String value = null;
+                    String value;
                     try {
                         item.setAccessible(true);
                         value = item.get(request).toString();
@@ -133,9 +145,9 @@ public class HttpUtils {
             strBuilder.append("?");
             params.forEach(item -> {
                 try {
-                    strBuilder.append(URLEncoder.encode(item.getName(), Charsets.UTF_8.name()))
+                    strBuilder.append(URLEncoder.encode(item.getName(), Charsets.toCharset("UTF-8").name()))
                             .append("=")
-                            .append(URLEncoder.encode(item.getValue(), Charsets.UTF_8.name()))
+                            .append(URLEncoder.encode(item.getValue(), Charsets.toCharset("UTF-8").name()))
                             .append("&");
                 } catch (UnsupportedEncodingException e) {
                     throw new RuntimeException(e);
