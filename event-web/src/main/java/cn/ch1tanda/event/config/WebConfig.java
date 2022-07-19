@@ -1,6 +1,5 @@
 package cn.ch1tanda.event.config;
 
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson2.JSONWriter;
 import com.alibaba.fastjson2.support.config.FastJsonConfig;
 import com.alibaba.fastjson2.support.spring.http.converter.FastJsonHttpMessageConverter;
@@ -9,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 @Configuration

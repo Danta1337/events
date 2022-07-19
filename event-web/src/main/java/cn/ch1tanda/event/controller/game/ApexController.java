@@ -2,12 +2,9 @@ package cn.ch1tanda.event.controller.game;
 
 import cn.ch1tanda.event.convention.response.Result;
 import cn.ch1tanda.event.convention.response.Results;
-import cn.ch1tanda.event.manager.game.apex.ApexLegendsManager;
 import cn.ch1tanda.event.manager.game.apex.constant.enums.PlatformEnum;
-import cn.ch1tanda.event.manager.game.apex.req.ApexMapQueryReq;
 import cn.ch1tanda.event.manager.game.apex.resp.ApexPlayerStatisticsQueryResp;
 import cn.ch1tanda.event.service.game.apex.ApexLegendsService;
-import cn.ch1tanda.event.utils.exception.AssertUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.Objects;
 
 @Controller
 @RequestMapping(path = "/game/apex")

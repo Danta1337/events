@@ -23,7 +23,7 @@
 
     <!-- 卡片的内容 -->
     <div class="mdui-card-content">
-        <form action="/auth" method="post" class="mdui-m-x-5">
+        <form name="login-form" action="/auth" method="post" class="mdui-m-x-5">
             <div class="mdui-textfield mdui-textfield-floating-label">
                 <label class="mdui-textfield-label">用户名</label>
                 <input name="username" class="mdui-textfield-input" type="text" required/>
@@ -32,7 +32,7 @@
                 <label class="mdui-textfield-label">密码</label>
                 <input name="password" class="mdui-textfield-input" type="password" required minlength="6"/>
             </div>
-            <button type="submit" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center mdui-m-t-5">
+            <button name="submit" type="submit" class="mdui-btn mdui-btn-block mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center mdui-m-t-5">
                 登录
             </button>
         </form>
@@ -44,8 +44,44 @@
 
 </div>
 </body>
-<style>
+<script>
+    const loginForm = document.getElementsByName("login-form")[0]
 
-</style>
+    loginForm.onsubmit = function() {
+        const formData = new FormData(this)
+
+        const username = document.getElementsByName("username")[0]
+        const password = document.getElementsByName("password")[0]
+        const submitBtn = document.getElementsByName("submit")[0]
+
+        username.disabled = true
+        password.disabled = true
+        submitBtn.disabled = true
+        mdui.updateTextFields()
+
+        fetch("/auth", {
+            headers: {},
+            method: "POST",
+            body: formData
+        })
+            .then(res => res.json())
+            .then(
+                json => {
+                    username.disabled = false
+                    password.disabled = false
+                    submitBtn.disabled = false
+                    mdui.updateTextFields()
+                    if (json.code !== "0") {
+                        mdui.alert(json.message, "登陆失败")
+                    } else {
+                        window.location.href="/index"
+                    }
+                }
+            )
+
+        return false;
+
+    }
+</script>
 
 </html>

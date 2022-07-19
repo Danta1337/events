@@ -1,6 +1,5 @@
 package cn.ch1tanda.event.manager.game.apex.impl;
 
-import cn.ch1tanda.event.exception.ServiceInvalidException;
 import cn.ch1tanda.event.manager.framework.RedisManager;
 import cn.ch1tanda.event.manager.game.apex.ApexLegendsManager;
 import cn.ch1tanda.event.manager.game.apex.constant.ApexConstant;

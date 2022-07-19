@@ -9,11 +9,6 @@ import cn.ch1tanda.event.manager.user.resp.RegisterResp;
 
 public interface UserManager {
 
-    /**
-     *
-     * @param req
-     * @return
-     */
     AuthResp auth(AuthReq req);
 
     RegisterResp register(RegisterReq req);
