@@ -17,6 +17,7 @@ import javax.validation.constraints.NotBlank;
 
 @Controller
 @Validated
+@RequestMapping("/user")
 public class UserController {
 
     @Resource
@@ -57,5 +58,15 @@ public class UserController {
         RegisterResp registerResult = userManager.register(registerReq);
 
         return registerResult.isSuccess() ? Results.success(true) : Results.failure("1", registerResult.getMessage());
-    };
+    }
+
+    @RequestMapping("/login")
+    public String toLogin() {
+        return "user/login";
+    }
+
+    @RequestMapping("/register")
+    public String toRegister() {
+        return "user/register";
+    }
 }

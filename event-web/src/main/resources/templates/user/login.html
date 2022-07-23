@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -25,12 +25,12 @@
     <div class="mdui-card-content">
         <form name="login-form" action="/auth" method="post" class="mdui-m-x-5">
             <div class="mdui-textfield mdui-textfield-floating-label">
-                <label class="mdui-textfield-label">用户名</label>
-                <input name="username" class="mdui-textfield-input" type="text" required/>
+                <label class="mdui-textfield-label" for="username">用户名</label>
+                <input name="username" class="mdui-textfield-input" type="text" id="username" required/>
             </div>
             <div class="mdui-textfield mdui-textfield-floating-label">
-                <label class="mdui-textfield-label">密码</label>
-                <input name="password" class="mdui-textfield-input" type="password" required minlength="6"/>
+                <label class="mdui-textfield-label" for="password">密码</label>
+                <input name="password" class="mdui-textfield-input" type="password" required minlength="6" id="password"/>
             </div>
             <button name="submit" type="submit" class="mdui-btn mdui-btn-block mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center mdui-m-t-5">
                 登录
@@ -38,7 +38,7 @@
         </form>
     </div>
     <div class="mdui-card-actions">
-        <a href="user-register.html" class="mdui-btn mdui-ripple mdui-float-right">注册</a>
+        <a th:href="@{/user/register}" class="mdui-btn mdui-ripple mdui-float-right">注册</a>
         <a class="mdui-btn mdui-ripple mdui-float-right">找回密码</a>
     </div>
 

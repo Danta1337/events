@@ -18,16 +18,18 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class WebSecurityConfig {
+
+    public static String[] permittedPath;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests()
-                .mvcMatchers("/html/**", "/css/**", "/js/**").permitAll()
-                .mvcMatchers("/register","/register/sendVerifyCode").permitAll()
+                .mvcMatchers(WebSecurityConfig.permittedPath).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/html/user-login.html")
+                .loginPage("/user/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .loginProcessingUrl("/auth")
@@ -69,5 +71,18 @@ public class WebSecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    static {
+        permittedPath = new String[] {
+                // 静态资源
+                "/html/**",
+                "/css/**",
+                "/js/**",
+                // 用户登录注册接口
+                "/user/login",
+                "/user/register",
+                "/user/register/sendVerifyCode"
+        };
     }
 }
