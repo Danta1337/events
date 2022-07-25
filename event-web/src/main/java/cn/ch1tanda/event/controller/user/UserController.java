@@ -35,7 +35,7 @@ public class UserController {
         return Results.success(true);
     }
 
-    @PostMapping("/register")
+    @PostMapping("/register/submit")
     @ResponseBody
     public Result<Boolean> register(
             @NotBlank String email,

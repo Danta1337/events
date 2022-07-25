@@ -114,6 +114,7 @@ public class WebSecurityConfig {
                 // 用户登录注册接口
                 "/user/login",
                 "/user/register",
+                "/user/register/submit",
                 "/user/register/sendVerifyCode"
         };
     }
