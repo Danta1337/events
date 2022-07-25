@@ -49,5 +49,5 @@ public interface UserMapper {
      */
     int updateByPrimaryKey(User row);
 
-    Optional<User> selectUsernameAndPasswordByUsername(@Param("username") String username);
+    User selectUsernameAndPasswordByUsername(@Param("username") String username);
 }

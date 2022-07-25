@@ -1,17 +1,14 @@
 package cn.ch1tanda.event.manager.user;
 
-import cn.ch1tanda.event.manager.user.req.AuthReq;
-import cn.ch1tanda.event.manager.user.req.GetAuthoritiesReq;
-import cn.ch1tanda.event.manager.user.req.RegisterReq;
-import cn.ch1tanda.event.manager.user.resp.AuthResp;
-import cn.ch1tanda.event.manager.user.resp.GetAuthoritiesResp;
-import cn.ch1tanda.event.manager.user.resp.RegisterResp;
+import cn.ch1tanda.event.model.User;
+
+import java.util.List;
 
 public interface UserManager {
 
-    AuthResp auth(AuthReq req);
+    User auth(String username);
 
-    RegisterResp register(RegisterReq req);
+    boolean register(User req);
 
-    GetAuthoritiesResp getAuthorities(GetAuthoritiesReq req);
+    List<String> getAuthorities(String username);
 }

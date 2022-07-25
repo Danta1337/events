@@ -1,23 +1,18 @@
 package cn.ch1tanda.event.manager.user.impl;
 
+import cn.ch1tanda.event.exception.ServiceInvalidException;
 import cn.ch1tanda.event.manager.user.UserManager;
-import cn.ch1tanda.event.manager.user.req.AuthReq;
-import cn.ch1tanda.event.manager.user.req.GetAuthoritiesReq;
-import cn.ch1tanda.event.manager.user.req.RegisterReq;
-import cn.ch1tanda.event.manager.user.resp.AuthResp;
-import cn.ch1tanda.event.manager.user.resp.GetAuthoritiesResp;
-import cn.ch1tanda.event.manager.user.resp.RegisterResp;
 import cn.ch1tanda.event.mapper.AuthorityMapper;
 import cn.ch1tanda.event.mapper.UserMapper;
 import cn.ch1tanda.event.model.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+@Slf4j
 @Component
 public class UserManagerImpl implements UserManager {
 
@@ -29,26 +24,20 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional
-    public AuthResp auth(AuthReq req) {
-        Optional<User> res = userMapper.selectUsernameAndPasswordByUsername(req.getUsername());
-
-        if (!res.isPresent()) {
-            return new AuthResp("1", "user does not exist", null);
-        }
-
-        return new AuthResp("0", "success", res.get());
+    public User auth(String username) {
+        User res = userMapper.selectUsernameAndPasswordByUsername(username);
+        return Objects.isNull(res) ? null : res;
     }
 
     @Override
     @Transactional
-    public RegisterResp register(RegisterReq req) {
-        Optional<User> res = userMapper.selectUsernameAndPasswordByUsername(req.getUser().getUsername());
-        if (res.isPresent()) {
-            return new RegisterResp("1", "username already exists");
+    public boolean register(User user) {
+        User res = userMapper.selectUsernameAndPasswordByUsername(user.getUsername());
+        if (Objects.nonNull(res)) {
+            throw new ServiceInvalidException("Username already exists");
         }
 
         Date now = new Date();
-        User user = req.getUser();
 
         user.setGmtCreated(now);
         user.setGmtModified(now);
@@ -56,18 +45,18 @@ public class UserManagerImpl implements UserManager {
         user.setRemark("");
 
         try {
-            userMapper.insert(user);
-        } catch (RuntimeException e) {
-            return new RegisterResp("1", "database exception");
+            int insert = userMapper.insert(user);
+            return insert == 1;
+        } catch (Exception e) {
+            log.info("An exception occurred when registering", e);
+            return false;
         }
-
-        return new RegisterResp("0", "success");
     }
 
     @Override
     @Transactional
-    public GetAuthoritiesResp getAuthorities(GetAuthoritiesReq req) {
-        List<String> authorities = authorityMapper.selectAuthorityByUsername(req.getUsername());
-        return new GetAuthoritiesResp("0", "success", authorities);
+    public List<String> getAuthorities(String username) {
+        List<String> authorities = authorityMapper.selectAuthorityByUsername(username);
+        return Objects.isNull(authorities) ? new ArrayList<>() : authorities;
     }
 }

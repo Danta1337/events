@@ -3,8 +3,6 @@ package cn.ch1tanda.event.controller.user;
 import cn.ch1tanda.event.convention.response.Result;
 import cn.ch1tanda.event.convention.response.Results;
 import cn.ch1tanda.event.manager.user.UserManager;
-import cn.ch1tanda.event.manager.user.req.RegisterReq;
-import cn.ch1tanda.event.manager.user.resp.RegisterResp;
 import cn.ch1tanda.event.model.User;
 import cn.ch1tanda.event.service.user.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,10 +52,9 @@ public class UserController {
         user.setUsername(username);
         user.setPassword(encodedPassword);
 
-        RegisterReq registerReq = new RegisterReq(user);
-        RegisterResp registerResult = userManager.register(registerReq);
+        boolean registerResult = userManager.register(user);
 
-        return registerResult.isSuccess() ? Results.success(true) : Results.failure("1", registerResult.getMessage());
+        return registerResult ? Results.success(true) : Results.failure("C_1", "注册失败！");
     }
 
     @RequestMapping("/login")

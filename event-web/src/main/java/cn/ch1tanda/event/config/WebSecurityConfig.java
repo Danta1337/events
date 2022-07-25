@@ -2,10 +2,6 @@ package cn.ch1tanda.event.config;
 
 import cn.ch1tanda.event.convention.response.Results;
 import cn.ch1tanda.event.manager.user.UserManager;
-import cn.ch1tanda.event.manager.user.req.AuthReq;
-import cn.ch1tanda.event.manager.user.req.GetAuthoritiesReq;
-import cn.ch1tanda.event.manager.user.resp.AuthResp;
-import cn.ch1tanda.event.manager.user.resp.GetAuthoritiesResp;
 import com.alibaba.fastjson2.support.spring.http.converter.FastJsonHttpMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +18,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
+import java.util.Objects;
 
 @Configuration
 public class WebSecurityConfig {
@@ -52,26 +52,26 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserManager manager) {
+    public UserDetailsService userDetailsService(UserManager userManager) {
         return username -> {
-            AuthResp authResp = manager.auth(new AuthReq(username));
-            GetAuthoritiesResp getAuthoritiesResp = manager.getAuthorities(new GetAuthoritiesReq(username));
+            cn.ch1tanda.event.model.User authResp = userManager.auth(username);
+            List<String> authorities = userManager.getAuthorities(username);
 
-            if (!authResp.getCode().equals("0")) {
-                throw new UsernameNotFoundException(authResp.getMessage());
+            if (Objects.isNull(authResp)) {
+                throw new UsernameNotFoundException("User does not exist");
             }
-
-            if (!getAuthoritiesResp.getCode().equals("0")) {
-                throw new UsernameNotFoundException(getAuthoritiesResp.getMessage());
+            if (Objects.isNull(authorities) || CollectionUtils.isEmpty(authorities)) {
+                throw new UsernameNotFoundException("User does not have any authorities");
             }
 
             return User.builder()
-                    .username(authResp.getData().getUsername())
-                    .password(authResp.getData().getPassword())
+                    .username(authResp.getUsername())
+                    .password(authResp.getPassword())
                     .authorities(
                             AuthorityUtils
                                     .commaSeparatedStringToAuthorityList(
-                                            String.join(",", getAuthoritiesResp.getData())
+                                            String.join(",", authorities
+                                            )
                                     )
                     ).build();
         };
