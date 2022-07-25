@@ -1,31 +1,23 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<!doctype html>
+<html lang="zh-cmn-Hans">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>首页</title>
-    <script type="text/javascript" th:src="@{/static/js/jquery-3.5.1.min.js}"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.min.css}"/>
-    <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
-    <script type="text/javascript" th:src="@{/static/js/common.js}"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+    <!-- MDUI CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css"/>
+    <title>Hello, world!</title>
 </head>
-<body>
-    <div id="modal"></div>
-    <div class="container-fluid">
-        <div id="navbar"></div>
-        <div class="row">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#centerModal">
-                Launch demo modal
-            </button>
-        </div>
-    </div>
-    <script>
-        $.get("/static/html/userNav.html", function(data) {
-            $("#navbar").replaceWith(data);
-        });
-        $.get("/static/html/centerModal.html", function(data) {
-            $("#modal").replaceWith(data);
-        })
-    </script>
+<body class="mdui-theme-primary-light-blue mdui-theme-accent-pink">
+    <div id="appbar"></div>
+<!-- MDUI JavaScript -->
+<script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+<script>
+    <!-- 动态导入导航栏 -->
+    fetch("/static/html/appbar.html").then(response => response.text()).then(text => document.getElementById("appbar").innerHTML=text);
+</script>
 </body>
 </html>
