@@ -76,9 +76,7 @@ public class WebSecurityConfig {
     static {
         permittedPath = new String[] {
                 // 静态资源
-                "/html/**",
-                "/css/**",
-                "/js/**",
+                "/static/**",
                 // 用户登录注册接口
                 "/user/login",
                 "/user/register",
