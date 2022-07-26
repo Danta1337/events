@@ -9,88 +9,138 @@
 
     <!-- MDUI CSS -->
     <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css"/>
-    <title>Hello, world!</title>
+    <title>Apex Legends</title>
+    <style>
+        .mdui-card-media {
+            height: 160px;
+            width: 100%;
+        }
+    </style>
 </head>
-<body class="mdui-theme-primary-light-blue mdui-theme-accent-pink">
-    <div id="appbar"></div>
-    <div class="mdui-container-fluid">
-        <div class="mdui-row">
-            <!-- 左侧导航栏 -->
-            <div class="mdui-col-md-2">
-                <div class="mdui-list" id="gameList"></div>
+<body class="mdui-drawer-body-left mdui-theme-primary-light-blue mdui-theme-accent-blue">
+<header class="appbar mdui-appbar">
+    <div id="appbar-content"></div>
+</header>
+<div class="mdui-drawer  mdui-color-theme-200" id="drawer">
+    <div id="drawer-content"></div>
+</div>
+<div class="mdui-container-fluid">
+    <div class="mdui-row">
+        <dvi class="mdui-col-md-2"></dvi>
+        <div class="mdui-col-md-8 mdui-typo">
+            <!-- 正文 -->
+            <!-- 信息查询 -->
+            <h4>Query</h4><hr>
+            <div class="mdui-row">
+                <!-- 查询块 -->
+                <div class="mdui-col-md-5">
+                    <div class="mdui-textfield">
+                        <div class="mdui-textfield-label" for="username">username</div>
+                        <input class="mdui-textfield-input" type="text" id="username"/>
+                        <dic class="mdui-textfield-label" for="platform">platform</dic>
+                        <select class="mdui-select" mdui-select="{position: 'auto'}">
+                            <option value="1">PC</option>
+                            <option value="2">SWITCH</option>
+                            <option value="3">Origin</option>
+                        </select>
+                        <button class="mdui-btn mdui-float-right mdui-color-lime-accent">Query!</button>
+                    </div>
+                </div>
             </div>
-            <div class="mdui-col-md-8 mdui-typo">
-                <!-- 正文 -->
-                <h4>Map Rotation</h4><hr>
-                <!-- 地图轮换 -->
-                <div class="mdui-row">
-                    <div class="mdui-col-md-6">
-                        <!-- 定义卡片 -->
-                        <div class="mdui-card">
-                            <!-- 卡片媒体 -->
-                            <div class="mdui-card-media">
-                                <img th:src="${mapRotation.ranked.get('current').asset}" alt="图片挂惹QAQ" />
-                            </div>
-                            <!-- 卡片内容 -->
-                            <div class="mdui-card-content">
-                                <h4>Ranked</h4>
-                                <p>Map: <span th:text="${mapRotation.ranked.get('current').map}"></span></p>
-                                <p>End at: <span th:text="${#dates.format(mapRotation.ranked.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
-                                <p>Next map: <span th:text="${mapRotation.ranked.get('next').map}"></span></p>
-                            </div>
+            <!-- 地图轮换 -->
+            <h4>Map Rotation</h4><hr>
+            <div class="mdui-row">
+                <div class="mdui-col-md-6 mdui-m-t-3">
+                    <!-- 定义卡片 -->
+                    <div class="mdui-card">
+                        <!-- 卡片媒体 -->
+                        <div class="mdui-card-media">
+                            <img style="height: 100%" th:src="${mapRotation.ranked.get('current').asset}" alt="图片挂惹QAQ" />
+                        </div>
+                        <!-- 卡片内容 -->
+                        <div class="mdui-card-content">
+                            <h4>Ranked</h4>
+                            <h6>Map: <span th:text="${mapRotation.ranked.get('current').map}"></span></h6>
+                            <h6>End at: <span th:text="${#dates.format(mapRotation.ranked.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></h6>
+                            <h6>Next map: <span th:text="${mapRotation.ranked.get('next').map}"></span></h6>
                         </div>
                     </div>
-                    <div class="mdui-col-md-6">
-                        <div class="mdui-card">
-                            <div class="mdui-card-media">
-                                <img th:src="${mapRotation.battleRoyale.get('current').asset}" alt="图片挂惹QAQ" />
-                            </div>
-                            <div class="mdui-card-content">
-                                <h4>Battle Royale</h4>
-                                <p>Map: <span th:text="${mapRotation.battleRoyale.get('current').map}"></span></p>
-                                <p>End at: <span th:text="${#dates.format(mapRotation.battleRoyale.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
-                                <p>Next map: <span th:text="${mapRotation.battleRoyale.get('next').map}"></span></p>
-                            </div>
+                </div>
+                <div class="mdui-col-md-6 mdui-m-t-3">
+                    <div class="mdui-card">
+                        <div class="mdui-card-media">
+                            <img style="height: 100%" th:src="${mapRotation.battleRoyale.get('current').asset}" alt="图片挂惹QAQ"/>
+                        </div>
+                        <div class="mdui-card-content">
+                            <h4>Battle Royale</h4>
+                            <h6>Map: <span th:text="${mapRotation.battleRoyale.get('current').map}"></span></h6>
+                            <h6>End at: <span th:text="${#dates.format(mapRotation.battleRoyale.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></h6>
+                            <h6>Next map: <span th:text="${mapRotation.battleRoyale.get('next').map}"></span></h6>
                         </div>
                     </div>
-                    <div class="mdui-col-md-6">
-                        <div class="mdui-card">
-                            <div class="mdui-card-media">
-                                <img th:src="${mapRotation.arenasRanked.get('current').asset}" alt="图片挂惹QAQ" />
-                            </div>
-                            <div class="mdui-card-content">
-                                <h4>Arenas Ranked</h4>
-                                <p>Map: <span th:text="${mapRotation.arenasRanked.get('current').map}"></span></p>
-                                <p>End at: <span th:text="${#dates.format(mapRotation.arenasRanked.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
-                                <p>Next map: <span th:text="${mapRotation.arenasRanked.get('next').map}"></span></p>
-                            </div>
+                </div>
+                <div class="mdui-col-md-6 mdui-m-t-3">
+                    <div class="mdui-card">
+                        <div class="mdui-card-media">
+                            <img style="height: 100%" th:src="${mapRotation.arenasRanked.get('current').asset}" alt="图片挂惹QAQ" />
+                        </div>
+                        <div class="mdui-card-content">
+                            <h4>Arenas Ranked</h4>
+                            <h6>Map: <span th:text="${mapRotation.arenasRanked.get('current').map}"></span></h6>
+                            <h6>End at: <span th:text="${#dates.format(mapRotation.arenasRanked.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></h6>
+                            <h6>Next map: <span th:text="${mapRotation.arenasRanked.get('next').map}"></span></h6>
                         </div>
                     </div>
-                    <div class="mdui-col-md-6">
-                        <div class="mdui-card">
-                            <div class="mdui-card-media">
-                                <img th:src="${mapRotation.arenas.get('current').asset}" alt="图片挂惹QAQ" />
-                            </div>
-                            <div class="mdui-card-content">
-                                <h4>Arenas</h4>
-                                <p>Map: <span th:text="${mapRotation.arenas.get('current').map}"></span></p>
-                                <p>End at: <span th:text="${#dates.format(mapRotation.arenas.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
-                                <p>Next map: <span th:text="${mapRotation.arenas.get('next').map}"></span></p>
-                            </div>
+                </div>
+                <div class="mdui-col-md-6 mdui-m-t-3">
+                    <div class="mdui-card">
+                        <div class="mdui-card-media">
+                            <img style="height: 100%" th:src="${mapRotation.arenas.get('current').asset}" alt="图片挂惹QAQ" />
+                        </div>
+                        <div class="mdui-card-content">
+                            <h4>Arenas</h4>
+                            <h6>Map: <span th:text="${mapRotation.arenas.get('current').map}"></span></h6>
+                            <h6>End at: <span th:text="${#dates.format(mapRotation.arenas.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></h6>
+                            <h6>Next map: <span th:text="${mapRotation.arenas.get('next').map}"></span></h6>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="mdui-col-md-2">
-
+            <h4>Crafting</h4><hr>
+            <div class="mdui-row mdui-m-b-5">
+                <div th:each="item:${crafting}" class="mdui-col-md-2  mdui-shadow">
+                    <img class="mdui-img-fluid mdui-img-circle" th:src="${item.getItemType().getAsset()}" alt="图片挂啦!XD"/>
+                </div>
             </div>
         </div>
     </div>
-    <!-- MDUI JavaScript -->
+</div>
+<!-- MDUI JavaScript -->
 <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
 <script>
-    fetch("/static/html/appbar.html").then(response => response.text()).then(text => document.getElementById("appbar").innerHTML=text);
-    fetch("/static/html/game/list.html").then(response => response.text()).then(text => document.getElementById("gameList").innerHTML=text);
+    fetch("/static/html/drawer-content.html").then(response => response.text()).then(text => {
+        document.getElementById("drawer-content").outerHTML = text;
+        mdui.mutation();
+    });
+    fetch("/static/html/appbar-content.html").then(response => response.text()).then(text => {
+        document.getElementById("appbar-content").outerHTML = text;
+        // 指定当前appbar的主题
+        document.getElementById("appbar-headline").innerText = "Games";
+        // 指定当前appbar的副标题
+        document.getElementById("appbar-title").innerText = "Apex Legends";
+        mdui.mutation();
+    });
+
+    function handleDrawer() {
+        let instance = new mdui.Drawer('#drawer');
+        instance.options.swipe = true;
+        let state = instance.getState();
+        if (state === 'opening' || state === 'opened') {
+            instance.close();
+        } else {
+            instance.open();
+        }
+    }
 </script>
 </body>
 </html>

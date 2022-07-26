@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-cmn-Hans">
+<html lang="zh-cmn-Hans" xmlns:th="https://www.thymeleaf.org/">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
@@ -9,15 +9,46 @@
 
     <!-- MDUI CSS -->
     <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css"/>
-    <title>Hello, world!</title>
+    <title>Games</title>
 </head>
-<body class="mdui-theme-primary-light-blue mdui-theme-accent-pink">
-    <div id="appbar"></div>
+<body class="mdui-drawer-body-left mdui-theme-primary-light-blue">
+<header class="appbar mdui-appbar">
+    <div id="appbar-content"></div>
+</header>
+<div class="mdui-drawer  mdui-color-theme-200" id="drawer">
+    <div id="drawer-content"></div>
+</div>
+<div class="mdui-container-fluid">
+    <div class="mdui-row">
+        <dvi class="mdui-col-md-2"></dvi>
+        <div class="mdui-col-md-8 mdui-typo">
+        </div>
+    </div>
+</div>
 <!-- MDUI JavaScript -->
 <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
 <script>
-    <!-- 动态导入导航栏 -->
-    fetch("/static/html/appbar.html").then(response => response.text()).then(text => document.getElementById("appbar").innerHTML=text);
+    fetch("/static/html/drawer-content.html").then(response => response.text()).then(text => {
+        document.getElementById("drawer-content").outerHTML = text;
+        mdui.mutation();
+    });
+    fetch("/static/html/appbar-content.html").then(response => response.text()).then(text => {
+        document.getElementById("appbar-content").outerHTML = text;
+        // 指定当前appbar的主题
+        document.getElementById("appbar-headline").innerText = "Home Page";
+        mdui.mutation();
+    });
+
+    function handleDrawer() {
+        let instance = new mdui.Drawer('#drawer');
+        instance.options.swipe = true;
+        let state = instance.getState();
+        if (state === 'opening' || state === 'opened') {
+            instance.close();
+        } else {
+            instance.open();
+        }
+    }
 </script>
 </body>
 </html>
