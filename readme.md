@@ -1,4 +1,7 @@
 # events项目说明
+
+[![OSCS Status](https://www.oscs1024.com/platform/badge/Danta1337/events.svg?size=small)](https://www.oscs1024.com/project/Danta1337/events?ref=badge_small)
+
 ## 文件结构
 
 ---
