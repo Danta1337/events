@@ -9,9 +9,10 @@
 
     <!-- MDUI CSS -->
     <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css"/>
+    <script type="text/javascript" src="/static/js/util.js"></script>
     <title>Games</title>
 </head>
-<body class="mdui-drawer-body-left mdui-theme-primary-light-blue">
+<body class="mdui-drawer-body-left mdui-theme-primary-light-blue mdui-theme-accent-pink">
 <header class="appbar mdui-appbar">
     <div id="appbar-content"></div>
 </header>
@@ -28,18 +29,8 @@
 <!-- MDUI JavaScript -->
 <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
 <script>
-    fetch("/static/html/drawer-content.html").then(response => response.text()).then(text => {
-        document.getElementById("drawer-content").outerHTML = text;
-        mdui.mutation();
-    });
-    fetch("/static/html/appbar-content.html").then(response => response.text()).then(text => {
-        document.getElementById("appbar-content").outerHTML = text;
-        // 指定当前appbar的主题
-        document.getElementById("appbar-headline").innerText = "Games";
-        // 指定当前appbar的副标题
-        document.getElementById("appbar-title").innerText = "Apex Legends";
-        mdui.mutation();
-    });
+    initDrawerContent("drawer-games", null)
+    initAppbarContent("Games", "template")
 
     function handleDrawer() {
         let instance = new mdui.Drawer('#drawer');

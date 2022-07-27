@@ -1,6 +1,7 @@
 package cn.ch1tanda.event.manager.game.apex.req;
 
 import cn.ch1tanda.event.exception.ServiceInvalidException;
+import cn.ch1tanda.event.manager.game.apex.constant.enums.ApexPlatformEnum;
 import cn.ch1tanda.event.utils.http.annotation.HttpParam;
 import cn.ch1tanda.event.utils.variable.StringUtils;
 import lombok.Data;
@@ -25,7 +26,7 @@ public class ApexPlayerStatisticsQueryReq extends ApexCommonReq implements Seria
 
     /**
      * 平台
-     * @see cn.ch1tanda.event.manager.game.apex.constant.enums.PlatformEnum
+     * @see ApexPlatformEnum
      */
     @HttpParam
     private String platform;

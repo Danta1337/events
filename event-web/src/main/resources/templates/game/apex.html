@@ -9,6 +9,7 @@
 
     <!-- MDUI CSS -->
     <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css"/>
+    <script type="text/javascript" src="/static/js/util.js"></script>
     <title>Apex Legends</title>
     <style>
         .mdui-card-media {
@@ -17,7 +18,7 @@
         }
     </style>
 </head>
-<body class="mdui-drawer-body-left mdui-theme-primary-light-blue mdui-theme-accent-blue">
+<body class="mdui-drawer-body-left mdui-theme-primary-light-blue mdui-theme-accent-pink">
 <header class="appbar mdui-appbar">
     <div id="appbar-content"></div>
 </header>
@@ -33,17 +34,41 @@
             <h4>Query</h4><hr>
             <div class="mdui-row">
                 <!-- 查询块 -->
-                <div class="mdui-col-md-5">
-                    <div class="mdui-textfield">
-                        <div class="mdui-textfield-label" for="username">username</div>
-                        <input class="mdui-textfield-input" type="text" id="username"/>
-                        <dic class="mdui-textfield-label" for="platform">platform</dic>
-                        <select class="mdui-select" mdui-select="{position: 'auto'}">
-                            <option value="1">PC</option>
-                            <option value="2">SWITCH</option>
-                            <option value="3">Origin</option>
+                <div class="mdui-col-md-6">
+                    <div class="mdui-textfield mdui-textfield-floating-label">
+                        <label class="mdui-textfield-label" for="username">username</label>
+                        <input class="mdui-textfield-input" type="text" id="username" required/>
+                        <div class="mdui-textfield-error">username can not be null</div>
+                    </div>
+                        <label class="mdui-textfield-label" for="platform">platform</label>
+                        <select class="mdui-select" mdui-select="{position: 'auto'}" id="platform">
+                            <option value="PC">PC</option>
+                            <option value="PS4">PS4</option>
+                            <option value="X1">X1</option>
+                            <option value="SWITCH">SWITCH</option>
                         </select>
-                        <button class="mdui-btn mdui-float-right mdui-color-lime-accent">Query!</button>
+                    <button class="mdui-ripple mdui-btn mdui-float-right mdui-color-pink-100" onclick="query()">Query!</button>
+                </div>
+                <div class="mdui-col-md-6">
+                    <div class="mdui-dialog" id="query-result-dialog">
+                        <div class="mdui-card">
+                            <div class="mdui-card-header">
+                                <img class="mdui-card-header-avatar" alt="XD" id="rank-img"/>
+                                <div class="mdui-card-header-title" id="result-username"></div>
+                                <div class="mdui-card-header-subtitle" id="rank"></div>
+                            </div>
+                            <div class="mdui-card-header">
+                                <img class="mdui-card-header-avatar" alt="XD" id="arena-img"/>
+                                <div class="mdui-card-header-title">Arena</div>
+                                <div class="mdui-card-header-subtitle" id="arena"></div>
+                            </div>
+                            <!-- 升级进度条 -->
+                            <div class="mdui-card-content">
+                                <div class="mdui-progress">
+                                    <div class="mdui-progress-determinate" style="width: 0" id="level"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -61,7 +86,7 @@
                         <div class="mdui-card-content">
                             <h4>Ranked</h4>
                             <h6>Map: <span th:text="${mapRotation.ranked.get('current').map}"></span></h6>
-                            <h6>End at: <span th:text="${#dates.format(mapRotation.ranked.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></h6>
+                            <h6>Remaining timer: <span th:text="${mapRotation.ranked.get('current').remainingTimer}"></span></h6>
                             <h6>Next map: <span th:text="${mapRotation.ranked.get('next').map}"></span></h6>
                         </div>
                     </div>
@@ -74,7 +99,7 @@
                         <div class="mdui-card-content">
                             <h4>Battle Royale</h4>
                             <h6>Map: <span th:text="${mapRotation.battleRoyale.get('current').map}"></span></h6>
-                            <h6>End at: <span th:text="${#dates.format(mapRotation.battleRoyale.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></h6>
+                            <h6>Remaining timer: <span th:text="${mapRotation.battleRoyale.get('current').remainingTimer}"></span></h6>
                             <h6>Next map: <span th:text="${mapRotation.battleRoyale.get('next').map}"></span></h6>
                         </div>
                     </div>
@@ -87,7 +112,7 @@
                         <div class="mdui-card-content">
                             <h4>Arenas Ranked</h4>
                             <h6>Map: <span th:text="${mapRotation.arenasRanked.get('current').map}"></span></h6>
-                            <h6>End at: <span th:text="${#dates.format(mapRotation.arenasRanked.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></h6>
+                            <h6>Remaining timer: <span th:text="${mapRotation.arenasRanked.get('current').remainingTimer}"></span></h6>
                             <h6>Next map: <span th:text="${mapRotation.arenasRanked.get('next').map}"></span></h6>
                         </div>
                     </div>
@@ -100,7 +125,7 @@
                         <div class="mdui-card-content">
                             <h4>Arenas</h4>
                             <h6>Map: <span th:text="${mapRotation.arenas.get('current').map}"></span></h6>
-                            <h6>End at: <span th:text="${#dates.format(mapRotation.arenas.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></h6>
+                            <h6>Remaining timer: <span th:text="${mapRotation.arenas.get('current').remainingTimer}"></span></h6>
                             <h6>Next map: <span th:text="${mapRotation.arenas.get('next').map}"></span></h6>
                         </div>
                     </div>
@@ -118,27 +143,27 @@
 <!-- MDUI JavaScript -->
 <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
 <script>
-    fetch("/static/html/drawer-content.html").then(response => response.text()).then(text => {
-        document.getElementById("drawer-content").outerHTML = text;
-        mdui.mutation();
-    });
-    fetch("/static/html/appbar-content.html").then(response => response.text()).then(text => {
-        document.getElementById("appbar-content").outerHTML = text;
-        // 指定当前appbar的主题
-        document.getElementById("appbar-headline").innerText = "Games";
-        // 指定当前appbar的副标题
-        document.getElementById("appbar-title").innerText = "Apex Legends";
-        mdui.mutation();
-    });
+    initDrawerContent("drawer-games", "drawer-games-apex");
+    initAppbarContent("Games", 'Apex Legends');
 
-    function handleDrawer() {
-        let instance = new mdui.Drawer('#drawer');
-        instance.options.swipe = true;
-        let state = instance.getState();
-        if (state === 'opening' || state === 'opened') {
-            instance.close();
-        } else {
-            instance.open();
+
+    function query() {
+        if (isNotBlank("username")) {
+            let paramIdList = ["username", "platform"];
+            fetch("/game/apex/query.json" + getGetParams(paramIdList))
+            .then(response => response.json())
+            .then(json => {
+                if (checkResult(json)) {
+                    setElementInnerText("result-username", json.data.name);
+                    setElementInnerText("rank", json.data.rank.rankName + " | " + json.data.rank.rankScore);
+                    setElementSrc("rank-img", json.data.rank.rankImg);
+                    setElementSrc("arena-img", json.data.arena.rankImg);
+                    setElementInnerText("arena", json.data.arena.rankName + " | " + json.data.arena.rankScore);
+                    setElementAttribute("level", "style", "width: " + (100 - json.data.toNextLevelPercent) + "%;")
+                    let queryResult = new mdui.Dialog('#query-result-dialog');
+                    queryResult.open();
+                }
+            })
         }
     }
 </script>

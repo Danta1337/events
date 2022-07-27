@@ -1,5 +1,6 @@
 package cn.ch1tanda.event.manager.game.apex.resp;
 
+import cn.ch1tanda.event.manager.game.apex.constant.enums.ApexPlatformEnum;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
@@ -31,7 +32,7 @@ public class ApexPlayerStatisticsQueryResp extends ApexErrorResp implements Seri
 
         /**
          * 平台
-         * @see cn.ch1tanda.event.manager.game.apex.constant.enums.PlatformEnum
+         * @see ApexPlatformEnum
          */
         private String platform;
 

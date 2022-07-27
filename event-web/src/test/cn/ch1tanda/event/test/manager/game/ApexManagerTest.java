@@ -1,7 +1,7 @@
 package cn.ch1tanda.event.test.manager.game;
 
 import cn.ch1tanda.event.manager.game.apex.ApexLegendsManager;
-import cn.ch1tanda.event.manager.game.apex.constant.enums.PlatformEnum;
+import cn.ch1tanda.event.manager.game.apex.constant.enums.ApexPlatformEnum;
 import cn.ch1tanda.event.manager.game.apex.req.ApexMapQueryReq;
 import cn.ch1tanda.event.manager.game.apex.req.ApexPlayerStatisticsQueryReq;
 import cn.ch1tanda.event.manager.game.apex.req.ApexUIDQueryReq;
@@ -29,7 +29,7 @@ public class ApexManagerTest extends BaseTest {
     @Test
     public void queryPlayerStatisticsInfoTest() {
         ApexPlayerStatisticsQueryReq request = new ApexPlayerStatisticsQueryReq();
-        request.setPlatform(PlatformEnum.PC.getCode());
+        request.setPlatform(ApexPlatformEnum.PC.getCode());
         request.setPlayer("wobush1bot");
         ApexPlayerStatisticsQueryResp response = apexLegendsManager.queryPlayerStatisticsInfo(request);
         System.out.println(JSONObject.toJSONString(response));
@@ -38,7 +38,7 @@ public class ApexManagerTest extends BaseTest {
     @Test
     public void queryUIDByNameAndPlatformTest() {
         ApexUIDQueryReq request = new ApexUIDQueryReq();
-        request.setPlatform(PlatformEnum.PC.getCode());
+        request.setPlatform(ApexPlatformEnum.PC.getCode());
         request.setName("wobush1bot");
         ApexUIDQueryResp response = apexLegendsManager.queryUIDByNameAndPlatform(request);
         System.out.println(JSONObject.toJSONString(response));

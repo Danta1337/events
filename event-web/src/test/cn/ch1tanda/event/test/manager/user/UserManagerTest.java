@@ -1,7 +1,6 @@
 package cn.ch1tanda.event.test.manager.user;
 
 
-import cn.ch1tanda.event.manager.user.UserManager;
 import cn.ch1tanda.event.mapper.AuthorityMapper;
 import cn.ch1tanda.event.mapper.UserMapper;
 import cn.ch1tanda.event.test.BaseTest;
@@ -16,14 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class UserManagerTest extends BaseTest {
-    UserManager userManager;
     @MockBean
     UserMapper userMapper;
-
-    @Autowired
-    void setUserManager(UserManager userManager) {
-        this.userManager = userManager;
-    }
 
     @MockBean
     AuthorityMapper authorityMapper;

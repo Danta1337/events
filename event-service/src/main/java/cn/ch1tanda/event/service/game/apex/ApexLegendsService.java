@@ -1,6 +1,6 @@
 package cn.ch1tanda.event.service.game.apex;
 
-import cn.ch1tanda.event.manager.game.apex.constant.enums.PlatformEnum;
+import cn.ch1tanda.event.manager.game.apex.constant.enums.ApexPlatformEnum;
 import cn.ch1tanda.event.manager.game.apex.resp.ApexCraftingResp;
 import cn.ch1tanda.event.manager.game.apex.resp.ApexMapQueryResp;
 import cn.ch1tanda.event.manager.game.apex.resp.ApexPlayerStatisticsQueryResp;
@@ -22,5 +22,5 @@ public interface ApexLegendsService {
     /**
      * 获取用户统计信息
      */
-    ApexPlayerStatisticsQueryResp.BasicInfo getPlayerStatisticsInfo (String userName, PlatformEnum platform);
+    ApexPlayerStatisticsQueryResp.BasicInfo getPlayerStatisticsInfo (String userName, ApexPlatformEnum platform);
 }

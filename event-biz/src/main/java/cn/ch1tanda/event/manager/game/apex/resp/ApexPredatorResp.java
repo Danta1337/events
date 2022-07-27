@@ -1,5 +1,6 @@
 package cn.ch1tanda.event.manager.game.apex.resp;
 
+import cn.ch1tanda.event.manager.game.apex.constant.enums.ApexPlatformEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,14 +17,14 @@ public class ApexPredatorResp implements Serializable {
     /**
      * 大逃杀排位赛
      * Map的key即平台platformCode
-     * @see cn.ch1tanda.event.manager.game.apex.constant.enums.PlatformEnum
+     * @see ApexPlatformEnum
      */
     private Map<String, ApexPredatorItem> RP;
 
     /**
      * 竞技场排位赛
      * Map的key即平台platformCode
-     * @see cn.ch1tanda.event.manager.game.apex.constant.enums.PlatformEnum
+     * @see ApexPlatformEnum
      */
     private Map<String, ApexPredatorItem> AP;
 

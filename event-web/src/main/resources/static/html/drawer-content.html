@@ -1,19 +1,19 @@
-<div class="mdu-list" mdui-collapse="{accordion: true}">
+<div class="mdu-list" mdui-collapse="{accordion: true}" style="margin-bottom: 76px">
     <div class="mdui-collapse-item">
-        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+        <a class="mdui-collapse-item-header mdui-list-item mdui-ripple" href="/index">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">home</i>
-            <div class="mdui-list-item-content">Index</div>
-        </div>
+            <div class="mdui-list-item-content" href="/index">Index</div>
+        </a>
     </div>
     <div class="mdui-collapse-item">
-        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple" id="drawer-event">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">event</i>
             <div class="mdui-list-item-content">Event</div>
             <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
         </div>
     </div>
     <!-- 一个合并边框项 -->
-    <div class="mdui-collapse-item">
+    <div class="mdui-collapse-item" id="drawer-games">
         <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
             <!-- 选项图标 -->
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">videogame_asset</i>
@@ -22,8 +22,8 @@
             <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
         </div>
         <!-- 子项 -->
-        <div class="mdui-collapse-item-body mdui-list">
-            <a href="/game/apex" class="mdui-list-item mdui-ripple ">Apex Legends</a>
+        <div class="mdui-collapse-item-body mdui-list" style="height: auto">
+            <a href="/game/apex" class="mdui-list-item mdui-ripple" id="drawer-games-apex">Apex Legends</a>
         </div>
     </div>
 </div>

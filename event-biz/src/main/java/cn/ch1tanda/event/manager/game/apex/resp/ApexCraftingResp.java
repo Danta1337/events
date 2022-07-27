@@ -21,12 +21,12 @@ public class ApexCraftingResp implements Serializable {
     /**
      * 存在开始时间
      */
-    private Date start;
+    private Integer start;
 
     /**
      * 存在结束时间
      */
-    private Date end;
+    private Integer end;
 
     /**
      * 物品类型
