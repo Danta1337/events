@@ -1,7 +1,7 @@
 package cn.ch1tanda.event.config;
 
 import cn.ch1tanda.event.convention.response.Results;
-import cn.ch1tanda.event.manager.user.UserManager;
+import cn.ch1tanda.event.service.user.UserService;
 import com.alibaba.fastjson2.support.spring.http.converter.FastJsonHttpMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,10 +52,10 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserManager userManager) {
+    public UserDetailsService userDetailsService(UserService userService) {
         return username -> {
-            cn.ch1tanda.event.model.User authResp = userManager.auth(username);
-            List<String> authorities = userManager.getAuthorities(username);
+            cn.ch1tanda.event.model.User authResp = userService.auth(username);
+            List<String> authorities = userService.getAuthorities(username);
 
             if (Objects.isNull(authResp)) {
                 throw new UsernameNotFoundException("User does not exist");
