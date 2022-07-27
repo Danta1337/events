@@ -76,7 +76,11 @@ public class UserServiceImpl implements UserService {
     public Boolean retrievePassword(String email, String newPassword) {
         AssertUtils.isNotBlank(email, "Email can not be blank!");
         AssertUtils.isNotBlank(newPassword, "New password can not be blank!");
-        return null;
+        User user = userMapper.selectUserByEmail(email);
+        AssertUtils.isTrue(Objects.nonNull(user), "Can not find user by email!");
+        user.setPassword(newPassword);
+        int updateResult = userMapper.updateByPrimaryKey(user);
+        return updateResult == 1;
     }
 
     @Override

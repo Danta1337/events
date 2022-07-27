@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Controller
@@ -26,7 +27,7 @@ public class UserController {
     @GetMapping("/register/sendVerifyCode")
     @ResponseBody
     public Result<Boolean> sendVerifyCode(
-            @NotBlank String email) {
+            @NotBlank @Email String email) {
         userService.sendEmailVerificationCode(email);
         return Results.success(true);
     }
@@ -34,7 +35,7 @@ public class UserController {
     @PostMapping("/register/submit")
     @ResponseBody
     public Result<Boolean> register(
-            @NotBlank String email,
+            @NotBlank @Email String email,
             @NotBlank String username,
             @NotBlank String password,
             @NotBlank String verifyCode) {
@@ -51,6 +52,13 @@ public class UserController {
         boolean registerResult = userService.register(user);
 
         return registerResult ? Results.success(true) : Results.failure("C_1", "注册失败！");
+    }
+
+    @PostMapping("/retrieve")
+    public Result<Boolean> retrievePassword(
+            @NotBlank @Email String email,
+            @NotBlank String newPassword) {
+        return Results.success(userService.retrievePassword(email, passwordEncoder.encode(newPassword)));
     }
 
     @RequestMapping("/login")

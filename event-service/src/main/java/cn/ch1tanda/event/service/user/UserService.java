@@ -33,7 +33,7 @@ public interface UserService {
     /**
      * 找回密码
      * @param email 用户注册邮箱
-     * @param newPassword 新密码
+     * @param newPassword 使用Spring Security的PasswordEncoder加密后的密码
      * @return 返回重新设置密码结果
      */
     Boolean retrievePassword(String email, String newPassword);

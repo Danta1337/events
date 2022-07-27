@@ -81,4 +81,9 @@
     from user
     where username = #{username}
   </select>
+    <select id="selectUserByEmail" resultType="cn.ch1tanda.event.model.User">
+    select id, gmt_created, gmt_modified, gmt_deleted, remark, username, password, enabled, email
+    from user
+    where email=#{email} and gmt_deleted is null;
+    </select>
 </mapper>
