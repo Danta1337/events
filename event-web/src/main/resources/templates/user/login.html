@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css"/>
+    <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+</head>
+<body class="mdui-theme-primary-blue mdui-theme-accent-pink mdui-color-grey-400">
+<div class="mdui-appbar">
+    <div class="mdui-toolbar mdui-color-theme">
+
+        <a href="javascript:" class="mdui-typo-title mdui-center">Ch1tanda Event</a>
+
+    </div>
+</div>
+<div class="mdui-card mdui-center mdui-m-t-5" style="max-width: 600px">
+    <!-- 卡片的标题和副标题 -->
+    <div class="mdui-card-primary">
+        <div class="mdui-card-primary-title mdui-text-center">登录</div>
+        <div class="mdui-card-primary-subtitle mdui-text-center">请输入用户名和密码</div>
+    </div>
+
+    <!-- 卡片的内容 -->
+    <div class="mdui-card-content">
+        <form name="login-form" action="/auth" method="post" class="mdui-m-x-5">
+            <div class="mdui-textfield mdui-textfield-floating-label">
+                <label class="mdui-textfield-label" for="username">用户名</label>
+                <input name="username" class="mdui-textfield-input" type="text" id="username" required/>
+            </div>
+            <div class="mdui-textfield mdui-textfield-floating-label">
+                <label class="mdui-textfield-label" for="password">密码</label>
+                <input name="password" class="mdui-textfield-input" type="password" required minlength="6" id="password"/>
+            </div>
+            <button name="submit" type="submit" class="mdui-btn mdui-btn-block mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center mdui-m-t-5">
+                登录
+            </button>
+        </form>
+    </div>
+    <div class="mdui-card-actions">
+        <a th:href="@{/user/register}" class="mdui-btn mdui-ripple mdui-float-right">注册</a>
+        <a class="mdui-btn mdui-ripple mdui-float-right">找回密码</a>
+    </div>
+
+</div>
+</body>
+<script>
+    const loginForm = document.getElementsByName("login-form")[0]
+
+    loginForm.onsubmit = function() {
+        const formData = new FormData(this)
+
+        const username = document.getElementsByName("username")[0]
+        const password = document.getElementsByName("password")[0]
+        const submitBtn = document.getElementsByName("submit")[0]
+
+        username.disabled = true
+        password.disabled = true
+        submitBtn.disabled = true
+        mdui.updateTextFields()
+
+        fetch("/auth", {
+            headers: {},
+            method: "POST",
+            body: formData
+        })
+            .then(res => res.json())
+            .then(
+                json => {
+                    username.disabled = false
+                    password.disabled = false
+                    submitBtn.disabled = false
+                    mdui.updateTextFields()
+                    if (json.code !== "0") {
+                        mdui.alert(json.message, "登陆失败")
+                    } else {
+                        window.location.href="/index"
+                    }
+                }
+            )
+
+        return false;
+
+    }
+</script>
+
+</html>

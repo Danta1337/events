@@ -2,11 +2,11 @@ package cn.ch1tanda.event.aop;
 
 import cn.ch1tanda.event.convention.response.Results;
 import cn.ch1tanda.event.exception.ServiceException;
-import cn.ch1tanda.event.exception.ServiceInvalidException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
+@Order(1)
 public class ExceptionHandlerAspect {
 
     /**

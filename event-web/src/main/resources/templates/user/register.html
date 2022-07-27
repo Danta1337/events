@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css"/>
+    <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+</head>
+<body class="mdui-theme-primary-blue mdui-theme-accent-pink mdui-color-grey-400">
+<div class="mdui-appbar">
+    <div class="mdui-toolbar mdui-color-theme">
+
+        <a href="javascript:" class="mdui-typo-title mdui-center">Ch1tanda Event</a>
+
+    </div>
+</div>
+<div class="mdui-card mdui-center mdui-m-t-5" style="max-width: 600px">
+    <!-- 卡片的标题和副标题 -->
+    <div class="mdui-card-primary">
+        <div class="mdui-card-primary-title mdui-text-center">注册</div>
+        <div class="mdui-card-primary-subtitle mdui-text-center">请输入信息</div>
+    </div>
+
+    <!-- 卡片的内容 -->
+    <div class="mdui-card-content">
+        <form name="register-form" class="mdui-m-x-5" action="/register" method="post">
+            <div class="mdui-textfield mdui-textfield-floating-label">
+                <label class="mdui-textfield-label" for="username">用户名</label>
+                <input name="username" class="mdui-textfield-input" type="text" required id="username"/>
+            </div>
+            <div class="mdui-textfield mdui-textfield-floating-label">
+                <label class="mdui-textfield-label" for="password">密码</label>
+                <input name="password" class="mdui-textfield-input" type="password" required minlength="6" id="password"/>
+            </div>
+            <div class="mdui-textfield mdui-textfield-floating-label">
+                <label class="mdui-textfield-label" for="email">电子邮箱</label>
+                <input name="email" class="mdui-textfield-input" type="email" required minlength="6" id="email"/>
+            </div>
+
+            <div class="mdui-container-fluid">
+                <div class="mdui-row">
+                    <div class="mdui-col-xs-9 mdui-p-l-0">
+                        <div class="mdui-textfield mdui-textfield-floating-label">
+                            <label class="mdui-textfield-label" for="verifyCode">验证码</label>
+                            <input name="verifyCode" class="mdui-textfield-input" type="text" required minlength="6" maxlength="6" id="verifyCode"/>
+                        </div>
+                    </div>
+                    <div class="mdui-col-xs-3 mdui-p-r-0 mdui-p-t-5">
+                        <button name="sendVerifyCodeBtn" onclick="sendVerifyCode()" type="button" class="mdui-btn mdui-btn-raised  mdui-float-right"  style="width: 100%">发送验证码</button>
+                    </div>
+                </div>
+            </div>
+
+            <button style="height: 45px" name="submit" class="mdui-btn mdui-btn-block mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center mdui-m-t-5">
+                <div class="mdui-typo-title">注册</div>
+            </button>
+
+        </form>
+    </div>
+    <div class="mdui-card-actions">
+        <a th:href="@{/user/login}" class="mdui-btn mdui-ripple mdui-float-right">登录</a>
+    </div>
+
+</div>
+</body>
+<script>
+    let verifyCodeCountDown = 60;
+
+    function sendVerifyCode() {
+        const email = document.getElementsByName("email")[0];
+        if (!email.validity.valid) {
+            mdui.alert('', '邮箱格式不正确')
+            return
+        }
+
+        const btn = document.getElementsByName("sendVerifyCodeBtn")[0];
+        btn.disabled = true
+        btn.innerText = verifyCodeCountDown + "秒后重试"
+        const countDown = setInterval(() => {
+            verifyCodeCountDown--
+            btn.innerText = verifyCodeCountDown + "秒后重试"
+        }, 1000);
+
+        setTimeout(() => {
+            clearInterval(countDown)
+            verifyCodeCountDown = 60
+            btn.innerText = "发送验证码"
+            btn.disabled = false
+        }, 60 * 1000)
+
+        mdui.alert('', '发送成功')
+
+        fetch("/user/register/sendVerifyCode?email=" + email.value)
+    }
+
+    form = document.getElementsByName("register-form")[0]
+    form.onsubmit = function() {
+        const submitBtn = document.getElementsByName("submit")[0]
+        const username = document.getElementsByName("username")[0]
+        const password = document.getElementsByName("password")[0]
+        const email = document.getElementsByName("email")[0]
+        const vCode = document.getElementsByName("verifyCode")[0]
+
+        const data = new FormData(this)
+
+        username.disabled = true
+        password.disabled = true
+        email.disabled = true
+        vCode.disabled = true
+        submitBtn.disabled = true
+        submitBtn.innerHTML='<div class="mdui-spinner" style="width: 30px; height: 30px; position: relative; top: 6px"></div>'
+        mdui.mutation();
+        mdui.updateTextFields()
+
+        fetch("/register/submit",{
+            headers:{
+                // 注意这里不要设置 Content-Type 请求头，否则会导致错误
+            },
+            method:"POST",
+            // fetch 的 body 发送 data
+            body:data
+        })
+            .then(res=>res.json())
+            .then(
+            json => {
+                submitBtn.innerHTML="<div class=\"mdui-typo-title\">注册</div>"
+
+                username.disabled = false
+                password.disabled = false
+                email.disabled = false
+                vCode.disabled = false
+                submitBtn.disabled = false
+                mdui.updateTextFields()
+                if (!(json.code === '0')) {
+                    mdui.alert(json.message, '注册失败')
+                } else {
+                    mdui.alert("可以跳转登录", "注册成功", function(){
+                        mdui.alert('点击了确认按钮');
+                        window.location.href="/user/login"
+                    })
+                }
+            })
+
+        return false
+    }
+</script>
+
+</html>

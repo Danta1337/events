@@ -1,163 +1,145 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<!doctype html>
+<html lang="zh-cmn-Hans" xmlns:th="https://www.thymeleaf.org/">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Apex</title>
-    <script type="text/javascript" th:src="@{/static/js/jquery-3.5.1.min.js}"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.min.css}"/>
-    <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
-    <script type="text/javascript" th:src="@{/static/js/common.js}"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+    <!-- MDUI CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css"/>
+    <title>Apex Legends</title>
+    <style>
+        .mdui-card-media {
+            height: 160px;
+            width: 100%;
+        }
+    </style>
 </head>
-<body>
-<div class="container-fluid">
-    <div id="navbar"></div>
-    <div class="row">
-        <div class="col-md-8 offset-2">
-            <div class="alert alert-danger" style="margin-top: 20px;margin-bottom: 20px">APEX的API服务器位于国外，部分接口可能会因为连接问题报错，届时重试即可。</div>
-            <!-- 查询玩家信息 -->
-            <div class="row" id="queryStatistics">
-                <div class="col-md-12">
-                    <h2 style="margin-bottom: 20px">Query User Statistics</h2>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="userNameInput">userName</label>
-                        <input class="form-control" id="userNameInput">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="platformInput">platform</label>
-                        <select id="platformInput" class="form-control">
-                            <option value="PC">PC</option>
-                            <option value="PS4">PS4</option>
-                            <option value="X1">XBOX</option>
-                            <option value="SWITCH">SWITCH</option>
+<body class="mdui-drawer-body-left mdui-theme-primary-light-blue mdui-theme-accent-blue">
+<header class="appbar mdui-appbar">
+    <div id="appbar-content"></div>
+</header>
+<div class="mdui-drawer  mdui-color-theme-200" id="drawer">
+    <div id="drawer-content"></div>
+</div>
+<div class="mdui-container-fluid">
+    <div class="mdui-row">
+        <dvi class="mdui-col-md-2"></dvi>
+        <div class="mdui-col-md-8 mdui-typo">
+            <!-- 正文 -->
+            <!-- 信息查询 -->
+            <h4>Query</h4><hr>
+            <div class="mdui-row">
+                <!-- 查询块 -->
+                <div class="mdui-col-md-5">
+                    <div class="mdui-textfield">
+                        <div class="mdui-textfield-label" for="username">username</div>
+                        <input class="mdui-textfield-input" type="text" id="username"/>
+                        <dic class="mdui-textfield-label" for="platform">platform</dic>
+                        <select class="mdui-select" mdui-select="{position: 'auto'}">
+                            <option value="1">PC</option>
+                            <option value="2">SWITCH</option>
+                            <option value="3">Origin</option>
                         </select>
-                    </div>
-                </div>
-                <div class="col-md-2" style="margin-top: 32px">
-                    <button class="btn btn-primary" id="query" onclick="query()">Query!</button>
-                </div>
-                <div class="col-md-1" style="margin-top: 32px" id="spinner" hidden>
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="sr-only">Loading...</span>
+                        <button class="mdui-btn mdui-float-right mdui-color-lime-accent">Query!</button>
                     </div>
                 </div>
             </div>
-            <!-- 查询collapse -->
-            <div class="row">
-                <div class="collapse" id="queryResultCollapse">
-                    <div id="queryResultInfo" hidden>
-                        <div class="row" style="margin-left: 10px">
-                            <div class="col-md-10">
-                                <p>Name: <span id="name"></span></p>
-                                <p>UID: <span id="uid"></span></p>
-                                <p>Level: <span id="level"></span></p>
-                                <p>Rank name: <span id="rankName"></span></p>
-                                <p>Rank score: <span id="rankScore"></span></p>
-                            </div>
-                            <div class="col-md-2">
-                                <img id="rankImg" src="" alt="XD">
-                            </div>
+            <!-- 地图轮换 -->
+            <h4>Map Rotation</h4><hr>
+            <div class="mdui-row">
+                <div class="mdui-col-md-6 mdui-m-t-3">
+                    <!-- 定义卡片 -->
+                    <div class="mdui-card">
+                        <!-- 卡片媒体 -->
+                        <div class="mdui-card-media">
+                            <img style="height: 100%" th:src="${mapRotation.ranked.get('current').asset}" alt="图片挂惹QAQ" />
                         </div>
-                    </div>
-                </div>
-            </div>
-            <!-- 地图轮换卡片 -->
-            <div class="row" id="mapRotationCard" th:if="${mapRotation} != null">
-                <div class="col-md-12">
-                    <h2 style="margin-bottom: 20px">Map Rotation</h2>
-                </div>
-                <div class="col-md-6">
-                    <div class="card" id="rankedMapRotationCard" style="margin: 10px;">
-                        <div style="height: 116px">
-                            <img class="card-img-top" th:src="${mapRotation.ranked.get('current').asset}" style="height: 100%"/>
-                        </div>
-                        <div class="card-body">
+                        <!-- 卡片内容 -->
+                        <div class="mdui-card-content">
                             <h4>Ranked</h4>
-                            <p>Map: <span th:text="${mapRotation.ranked.get('current').map}"></span></p>
-                            <p>End at: <span th:text="${#dates.format(mapRotation.ranked.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
-                            <p>Next map: <span th:text="${mapRotation.ranked.get('next').map}"></span></p>
+                            <h6>Map: <span th:text="${mapRotation.ranked.get('current').map}"></span></h6>
+                            <h6>End at: <span th:text="${#dates.format(mapRotation.ranked.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></h6>
+                            <h6>Next map: <span th:text="${mapRotation.ranked.get('next').map}"></span></h6>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card" id="battleRoyaleMapRotationCard" style="margin: 10px;">
-                        <div style="height: 116px">
-                            <img class="card-img-top" th:src="${mapRotation.battleRoyale.get('current').asset}" style="height: 100%"/>
+                <div class="mdui-col-md-6 mdui-m-t-3">
+                    <div class="mdui-card">
+                        <div class="mdui-card-media">
+                            <img style="height: 100%" th:src="${mapRotation.battleRoyale.get('current').asset}" alt="图片挂惹QAQ"/>
                         </div>
-                        <div class="card-body">
+                        <div class="mdui-card-content">
                             <h4>Battle Royale</h4>
-                            <p>Map: <span th:text="${mapRotation.battleRoyale.get('current').map}"></span></p>
-                            <p>End at: <span th:text="${#dates.format(mapRotation.battleRoyale.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
-                            <p>Next map: <span th:text="${mapRotation.battleRoyale.get('next').map}"></span></p>
+                            <h6>Map: <span th:text="${mapRotation.battleRoyale.get('current').map}"></span></h6>
+                            <h6>End at: <span th:text="${#dates.format(mapRotation.battleRoyale.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></h6>
+                            <h6>Next map: <span th:text="${mapRotation.battleRoyale.get('next').map}"></span></h6>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card" id="arenasRankedCard" style="margin: 10px;">
-                        <div style="height: 116px">
-                            <img class="card-img-top" th:src="${mapRotation.arenasRanked.get('current').asset}" style="height: 100%"/>
+                <div class="mdui-col-md-6 mdui-m-t-3">
+                    <div class="mdui-card">
+                        <div class="mdui-card-media">
+                            <img style="height: 100%" th:src="${mapRotation.arenasRanked.get('current').asset}" alt="图片挂惹QAQ" />
                         </div>
-                        <div class="card-body">
+                        <div class="mdui-card-content">
                             <h4>Arenas Ranked</h4>
-                            <p>Map: <span th:text="${mapRotation.arenasRanked.get('current').map}"></span></p>
-                            <p>End at: <span th:text="${#dates.format(mapRotation.arenasRanked.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
-                            <p>Next map: <span th:text="${mapRotation.arenasRanked.get('next').map}"></span></p>
+                            <h6>Map: <span th:text="${mapRotation.arenasRanked.get('current').map}"></span></h6>
+                            <h6>End at: <span th:text="${#dates.format(mapRotation.arenasRanked.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></h6>
+                            <h6>Next map: <span th:text="${mapRotation.arenasRanked.get('next').map}"></span></h6>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card" id="arenasCard" style="margin: 10px;">
-                        <div style="height: 116px;">
-                            <img class="card-img-top" th:src="${mapRotation.arenas.get('current').asset}" style="height: 100%"/>
+                <div class="mdui-col-md-6 mdui-m-t-3">
+                    <div class="mdui-card">
+                        <div class="mdui-card-media">
+                            <img style="height: 100%" th:src="${mapRotation.arenas.get('current').asset}" alt="图片挂惹QAQ" />
                         </div>
-                        <div class="card-body">
+                        <div class="mdui-card-content">
                             <h4>Arenas</h4>
-                            <p>Map: <span th:text="${mapRotation.arenas.get('current').map}"></span></p>
-                            <p>End at: <span th:text="${#dates.format(mapRotation.arenas.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
-                            <p>Next map: <span th:text="${mapRotation.arenas.get('next').map}"></span></p>
+                            <h6>Map: <span th:text="${mapRotation.arenas.get('current').map}"></span></h6>
+                            <h6>End at: <span th:text="${#dates.format(mapRotation.arenas.get('current').end, 'yyyy-MM-dd HH:mm:ss')}"></span></h6>
+                            <h6>Next map: <span th:text="${mapRotation.arenas.get('next').map}"></span></h6>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- 复制器制造轮换 -->
-            <div class="row" id="craftingCard" th:if="${crafting} != null">
-                <div class="col-md-12">
-                    <h2 style="margin-bottom: 20px">Crafting</h2>
-                </div>
-                <div th:if="${crafting} != null" th:each="item:${crafting}">
-                    <div class="col-md-12">
-                        <img class="img-thumbnail border" th:src="${item.getItemType().getAsset()}" style="width: 100px; height: 100px;"/>
-                    </div>
+            <h4>Crafting</h4><hr>
+            <div class="mdui-row mdui-m-b-5">
+                <div th:each="item:${crafting}" class="mdui-col-md-2  mdui-shadow">
+                    <img class="mdui-img-fluid mdui-img-circle" th:src="${item.getItemType().getAsset()}" alt="图片挂啦!XD"/>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!-- MDUI JavaScript -->
+<script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
 <script>
-    $.get("/static/html/userNav.html", function(data) {
-        $("#navbar").replaceWith(data);
+    fetch("/static/html/drawer-content.html").then(response => response.text()).then(text => {
+        document.getElementById("drawer-content").outerHTML = text;
+        mdui.mutation();
+    });
+    fetch("/static/html/appbar-content.html").then(response => response.text()).then(text => {
+        document.getElementById("appbar-content").outerHTML = text;
+        // 指定当前appbar的主题
+        document.getElementById("appbar-headline").innerText = "Games";
+        // 指定当前appbar的副标题
+        document.getElementById("appbar-title").innerText = "Apex Legends";
+        mdui.mutation();
     });
 
-    function query() {
-        // 显示转转转
-        $('#spinner').removeAttr("hidden");
-        $('#queryResultCollapse').collapse('hide');
-        $.get("/game/apex/query.json", {userName: $('#userNameInput').val(), platform: $('#platformInput').val()}, function (result) {
-            $("#spinner").attr("hidden", true); // 隐藏查询转转
-            checkResult(result); // 检查参数
-            $("#name").html(result.data.name);
-            $("#uid").html(result.data.uid);
-            $("#level").html(result.data.level);
-            $("#rankName").html(result.data.rank.rankName);
-            $("#rankScore").html(result.data.rank.rankScore);
-            $("#rankImg").attr('src', result.data.rank.rankImg);
-            $("#queryResultInfo").removeAttr("hidden");
-            $('#queryResultCollapse').collapse('show');
-        })
+    function handleDrawer() {
+        let instance = new mdui.Drawer('#drawer');
+        instance.options.swipe = true;
+        let state = instance.getState();
+        if (state === 'opening' || state === 'opened') {
+            instance.close();
+        } else {
+            instance.open();
+        }
     }
 </script>
 </body>

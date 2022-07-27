@@ -14,6 +14,12 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <mybatis.generator.configurationFile>
+            src/main/resources/mbg-config.xml
+        </mybatis.generator.configurationFile>
+        <mybatis.generator.overwrite>
+            true
+        </mybatis.generator.overwrite>
     </properties>
 
     <dependencies>
@@ -62,5 +68,35 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.mybatis.dynamic-sql</groupId>
+            <artifactId>mybatis-dynamic-sql</artifactId>
+            <version>1.4.0</version>
+        </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.4.1</version>
+                <executions>
+                    <execution>
+                        <id>Generate MyBatis Artifacts</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>8.0.29</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 </project>

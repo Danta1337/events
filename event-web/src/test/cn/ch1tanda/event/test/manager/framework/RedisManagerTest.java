@@ -14,7 +14,7 @@ public class RedisManagerTest extends BaseTest {
     @Test
     public void setEXTest () {
         redisManager.set("test", "test", 100000L);
-        String test = redisManager.get("test");
+        String test = redisManager.get("dadas@dasd");
         System.out.println(test);
     }
 }

@@ -8,4 +8,6 @@
 /dataSources.local.xml
 /encodings.xml
 ../.idea
-/leetcode/
+/misc.xml
+/target/
+*.class
