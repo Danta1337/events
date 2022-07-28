@@ -51,6 +51,11 @@
         INSERT INTO config (`config_type`, `config_key`, `config_value`, `gmt_created`, `gmt_modified`, `is_deleted`, `remark`)
         VALUES (#{configType}, #{configKey}, #{configValue}, #{gmtCreated}, #{gmtModified}, #{isDeleted}, #{remark});
     </insert>
+    <update id="updateConfigValueByConfigTypeAndConfigKey">
+        UPDATE config
+        SET config_value = #{configValue}, gmt_modified = now()
+        WHERE config_type = #{configType} and config_key = #{configKey};
+    </update>
 
     <select id="selectByPkId" resultType="cn.ch1tanda.event.mapper.dataobject.ConfigDO" resultMap="baseResultMap">
         SELECT <include refid="baseColumn"/>

@@ -23,4 +23,6 @@ public interface ConfigMapper {
     List<ConfigDO> fullQuery(ConfigQuery query);
 
     List<ConfigDO> pageQuery(ConfigQuery query);
+
+    int updateConfigValueByConfigTypeAndConfigKey (@Param("configType") String type, @Param("configKey") String key, @Param("configValue") String value);
 }

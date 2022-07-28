@@ -79,8 +79,12 @@ function checkResult(json) {
 function initDrawerContent(list, item) {
     fetch("/static/html/drawer-content.html").then(response => response.text()).then(text => {
         document.getElementById("drawer-content").outerHTML = text;
-        document.getElementById(list).classList.add("mdui-collapse-item-open");
-        document.getElementById(item).classList.add("mdui-list-item-active");
+        if (list != null) {
+            document.getElementById(list).classList.add("mdui-collapse-item-open");
+        }
+        if (item != null) {
+            document.getElementById(item).classList.add("mdui-list-item-active");
+        }
         mdui.mutation();
     });
 }
@@ -90,9 +94,13 @@ function initAppbarContent(headline, title) {
     fetch("/static/html/appbar-content.html").then(response => response.text()).then(text => {
         document.getElementById("appbar-content").outerHTML = text;
         // 指定当前appbar的主题
-        document.getElementById("appbar-headline").innerText = headline;
+        if (headline != null) {
+            document.getElementById("appbar-headline").innerText = headline;
+        }
         // 指定当前appbar的副标题
-        document.getElementById("appbar-title").innerText = title;
+        if (title != null) {
+            document.getElementById("appbar-title").innerText = title;
+        }
         mdui.mutation();
     });
 }

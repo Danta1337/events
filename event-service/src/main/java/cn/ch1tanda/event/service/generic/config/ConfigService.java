@@ -16,11 +16,11 @@ public interface ConfigService {
     String getConfigValueByTypeAndKey(String type, String key);
 
     /**
-     * 新增配置
+     * 新增配置，如果配置存在，则根据type与key更新value
      * @param type 非必填，默认为default
      * @return 新增结果
      */
-    Boolean addNewConfig (String type, String key, String value);
+    Boolean setConfig(String type, String key, String value);
 
     /**
      * 根据配置类型获取该配置类型下所有的配置

@@ -32,11 +32,15 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
-    public Boolean addNewConfig(String type, String key, String value) {
+    public Boolean setConfig(String type, String key, String value) {
         AssertUtils.isNotBlank(key, "配置key不可为空！");
         AssertUtils.isNotBlank(value, "配置value不可为空！");
         if (StringUtils.isBlank(type)) {
             type = ConfigTypeEnum.DEFAULT.getCode();
+        }
+        String configValue = configMapper.selectConfigValueByConfigTypeAndConfigKey(type, key);
+        if (StringUtils.isNotBlank(configValue)) {
+            configMapper.updateConfigValueByConfigTypeAndConfigKey(type, key, value);
         }
         ConfigDO newConfig = ConfigDO.build(type, key, value);
         return configMapper.insert(newConfig);
