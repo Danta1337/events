@@ -9,27 +9,38 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 @Slf4j
 @Aspect
 @Component
 @Order(2)
-public class LogAspect {
+public class ControllerLogAspect {
 
-    @Pointcut(value = "execution(* cn.ch1tanda.event.controller..*.*(..)) || execution(* cn.ch1tanda.event.manager..*.*(..))")
+    @Resource
+    private HttpServletRequest request;
+
+    @Pointcut(value = "execution(* cn.ch1tanda.event.controller..*.*(..))")
     public void pointcut() {
     }
 
     @Around("pointcut()")
     public Object around (ProceedingJoinPoint joinPoint) throws Throwable {
-        log.info("Request method:{}, args:{}", joinPoint.getSignature(), JSONObject.toJSONString(joinPoint.getArgs()));
         Object result = null;
         try {
             result = joinPoint.proceed();
         } catch (Exception e) {
-            log.info("Exception method:{}", joinPoint.getSignature(), e);
+            log.info("Exception! Request path:{}, args:{}"
+                    , request.getRequestURI()
+                    , JSONObject.toJSONString(joinPoint.getArgs())
+                    , e);
             throw e;
         }
-        log.info("Response {}", JSONObject.toJSONString(result));
+        log.info("Request path:{}, args:{}, response:{}"
+                , request.getRequestURI()
+                , JSONObject.toJSONString(joinPoint.getArgs())
+                , JSONObject.toJSONString(result));
         return result;
     }
 }

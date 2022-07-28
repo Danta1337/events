@@ -15,4 +15,6 @@ public class ApexConstant {
     public static String APEX_CRAFTING_REDIS_KEY = "events:game:apex:crafting";
 
     public static String APEX_QUERY_USER_RESULT_REDIS_KEY = "events:game:apex:user:";
+
+    public static String APEX_PREDATOR_INFO_REDIS_KEY = "events:game:apex:predator";
 }
