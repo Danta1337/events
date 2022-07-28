@@ -31,10 +31,10 @@
         <div class="mdui-col-md-8 mdui-typo">
             <!-- 正文 -->
             <!-- 信息查询 -->
-            <h4>Query</h4><hr>
             <div class="mdui-row">
                 <!-- 查询块 -->
                 <div class="mdui-col-md-6">
+                    <h4>User Query</h4><hr>
                     <div class="mdui-textfield mdui-textfield-floating-label">
                         <label class="mdui-textfield-label" for="username">username</label>
                         <input class="mdui-textfield-input" type="text" id="username" required/>
@@ -48,6 +48,29 @@
                             <option value="SWITCH">SWITCH</option>
                         </select>
                     <button class="mdui-ripple mdui-btn mdui-float-right mdui-color-pink-100" onclick="query()">Query!</button>
+                </div>
+                <div class="mdui-col-md-6">
+                    <h4>Predator Info</h4><hr>
+                    <div class="mdui-table-fluid mdui-shadow-0">
+                        <table class="mdui-table mdui-table-hoverable">
+                            <thead>
+                            <tr>
+                                <td mdui-tooltip="{position: 'top', content: '游戏平台'}">Platform</td>
+                                <td mdui-tooltip="{position: 'top', content: '猎杀段位人数'}">Preds</td>
+                                <td mdui-tooltip="{position: 'top', content: '猎杀与大师段位总人数'}">P&M</td>
+                                <td mdui-tooltip="{position: 'top', content: '最低猎杀段位分数'}">Score</td>
+                            </tr>
+                            </thead>
+                            <tbody th:each="item:${predators.getRP()}">
+                            <tr>
+                                <td th:text="${item.getKey()}"></td>
+                                <td th:text="${item.getValue().getFoundRank()}"></td>
+                                <td th:text="${item.getValue().getTotalMastersAndPreds()}"></td>
+                                <td th:text="${item.getValue().getVal()}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="mdui-col-md-6">
                     <div class="mdui-dialog" id="query-result-dialog">
@@ -79,61 +102,60 @@
                     <!-- 定义卡片 -->
                     <div class="mdui-card">
                         <!-- 卡片媒体 -->
-                        <div class="mdui-card-media">
+                        <div class="mdui-card-media mdui-ripple">
                             <img style="height: 100%" th:src="${mapRotation.ranked.get('current').asset}" alt="图片挂惹QAQ" />
-                        </div>
-                        <!-- 卡片内容 -->
-                        <div class="mdui-card-content">
-                            <h4>Ranked</h4>
-                            <h6>Map: <span th:text="${mapRotation.ranked.get('current').map}"></span></h6>
-                            <h6>Remaining timer: <span th:text="${mapRotation.ranked.get('current').remainingTimer}"></span></h6>
-                            <h6>Next map: <span th:text="${mapRotation.ranked.get('next').map}"></span></h6>
+                            <div class="mdui-card-media-covered">
+                                <div class="mdui-card-primary">
+                                    <div class="mdui-card-primary-title" th:text="${mapRotation.ranked.get('current').map}"></div>
+                                    <div class="mdui-card-primary-subtitle" th:text="'Ranked | ' + ${mapRotation.ranked.get('current').remainingTimer} + ' | next: ' + ${mapRotation.ranked.get('next').map}"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="mdui-col-md-6 mdui-m-t-3">
                     <div class="mdui-card">
-                        <div class="mdui-card-media">
+                        <div class="mdui-card-media mdui-ripple">
                             <img style="height: 100%" th:src="${mapRotation.battleRoyale.get('current').asset}" alt="图片挂惹QAQ"/>
-                        </div>
-                        <div class="mdui-card-content">
-                            <h4>Battle Royale</h4>
-                            <h6>Map: <span th:text="${mapRotation.battleRoyale.get('current').map}"></span></h6>
-                            <h6>Remaining timer: <span th:text="${mapRotation.battleRoyale.get('current').remainingTimer}"></span></h6>
-                            <h6>Next map: <span th:text="${mapRotation.battleRoyale.get('next').map}"></span></h6>
+                            <div class="mdui-card-media-covered">
+                                <div class="mdui-card-primary">
+                                    <div class="mdui-card-primary-title" th:text="${mapRotation.battleRoyale.get('current').map}"></div>
+                                    <div class="mdui-card-primary-subtitle" th:text="'Battle Royale | ' + ${mapRotation.battleRoyale.get('current').remainingTimer} + ' | next: ' + ${mapRotation.battleRoyale.get('next').map}"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="mdui-col-md-6 mdui-m-t-3">
                     <div class="mdui-card">
-                        <div class="mdui-card-media">
+                        <div class="mdui-card-media mdui-ripple">
                             <img style="height: 100%" th:src="${mapRotation.arenasRanked.get('current').asset}" alt="图片挂惹QAQ" />
-                        </div>
-                        <div class="mdui-card-content">
-                            <h4>Arenas Ranked</h4>
-                            <h6>Map: <span th:text="${mapRotation.arenasRanked.get('current').map}"></span></h6>
-                            <h6>Remaining timer: <span th:text="${mapRotation.arenasRanked.get('current').remainingTimer}"></span></h6>
-                            <h6>Next map: <span th:text="${mapRotation.arenasRanked.get('next').map}"></span></h6>
+                            <div class="mdui-card-media-covered">
+                                <div class="mdui-card-primary">
+                                    <div class="mdui-card-primary-title" th:text="${mapRotation.arenasRanked.get('current').map}"></div>
+                                    <div class="mdui-card-primary-subtitle" th:text="'Arenas Ranked | ' + ${mapRotation.arenasRanked.get('current').remainingTimer} + ' | next: ' + ${mapRotation.arenasRanked.get('next').map}"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="mdui-col-md-6 mdui-m-t-3">
                     <div class="mdui-card">
-                        <div class="mdui-card-media">
+                        <div class="mdui-card-media mdui-ripple">
                             <img style="height: 100%" th:src="${mapRotation.arenas.get('current').asset}" alt="图片挂惹QAQ" />
-                        </div>
-                        <div class="mdui-card-content">
-                            <h4>Arenas</h4>
-                            <h6>Map: <span th:text="${mapRotation.arenas.get('current').map}"></span></h6>
-                            <h6>Remaining timer: <span th:text="${mapRotation.arenas.get('current').remainingTimer}"></span></h6>
-                            <h6>Next map: <span th:text="${mapRotation.arenas.get('next').map}"></span></h6>
+                            <div class="mdui-card-media-covered">
+                                <div class="mdui-card-primary">
+                                    <div class="mdui-card-primary-title" th:text="${mapRotation.arenas.get('current').map}"></div>
+                                    <div class="mdui-card-primary-subtitle" th:text="'Arenas | ' + ${mapRotation.arenas.get('current').remainingTimer} + ' | next: ' + ${mapRotation.arenas.get('next').map}"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <h4>Crafting</h4><hr>
             <div class="mdui-row mdui-m-b-5">
-                <div th:each="item:${crafting}" class="mdui-col-md-2  mdui-shadow">
+                <div th:each="item:${crafting}" class="mdui-col-md-2 mdui-col-xs-3  mdui-shadow  mdui-ripple">
                     <img class="mdui-img-fluid mdui-img-circle" th:src="${item.getItemType().getAsset()}" alt="图片挂啦!XD"/>
                 </div>
             </div>

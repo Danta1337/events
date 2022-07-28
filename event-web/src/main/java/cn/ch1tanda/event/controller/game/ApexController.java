@@ -4,6 +4,7 @@ import cn.ch1tanda.event.convention.response.Result;
 import cn.ch1tanda.event.convention.response.Results;
 import cn.ch1tanda.event.manager.game.apex.constant.enums.ApexPlatformEnum;
 import cn.ch1tanda.event.manager.game.apex.resp.ApexPlayerStatisticsQueryResp;
+import cn.ch1tanda.event.manager.game.apex.resp.ApexPredatorResp;
 import cn.ch1tanda.event.service.game.apex.ApexLegendsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,7 @@ public class ApexController {
     public String init(Model model) {
         model.addAttribute("mapRotation", apexLegendsService.getMapRotationInfo());
         model.addAttribute("crafting", apexLegendsService.getDailyOrWeeklyCraftingContent());
+        model.addAttribute("predators", apexLegendsService.getApexPredatorInfo());
         return "game/apex";
     }
 
@@ -35,4 +37,9 @@ public class ApexController {
         return Results.success(apexLegendsService.getPlayerStatisticsInfo(username, platform));
     }
 
+    @ResponseBody
+    @RequestMapping(path = "/predator.json", method = RequestMethod.GET)
+    public Result<ApexPredatorResp> queryPredatorInfo() {
+        return Results.success(apexLegendsService.getApexPredatorInfo());
+    }
 }

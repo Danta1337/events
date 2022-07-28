@@ -28,7 +28,6 @@ public class ApexPredatorResp implements Serializable {
      */
     private Map<String, ApexPredatorItem> AP;
 
-
     /**
      * 抵达猎杀所需分数项
      */

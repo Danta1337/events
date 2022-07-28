@@ -10,6 +10,7 @@ import cn.ch1tanda.event.manager.game.apex.req.ApexPlayerStatisticsQueryReq;
 import cn.ch1tanda.event.manager.game.apex.resp.ApexCraftingResp;
 import cn.ch1tanda.event.manager.game.apex.resp.ApexMapQueryResp;
 import cn.ch1tanda.event.manager.game.apex.resp.ApexPlayerStatisticsQueryResp;
+import cn.ch1tanda.event.manager.game.apex.resp.ApexPredatorResp;
 import cn.ch1tanda.event.service.game.apex.ApexLegendsService;
 import cn.ch1tanda.event.utils.exception.AssertUtils;
 import cn.ch1tanda.event.utils.variable.DateUtils;
@@ -89,6 +90,19 @@ public class ApexLegendsLegendsServiceImpl implements ApexLegendsService {
             redisManager.set(ApexConstant.APEX_QUERY_USER_RESULT_REDIS_KEY + userName + ":" + platform.getCode(), JSONObject.toJSONString(result), 1000 * 60 * 20L);
         } else {
             result = JSONObject.parseObject(cachedPlayerStatistics, ApexPlayerStatisticsQueryResp.BasicInfo.class);
+        }
+        return result;
+    }
+
+    @Override
+    public ApexPredatorResp getApexPredatorInfo() {
+        ApexPredatorResp result;
+        String cachedPredatorInfo = redisManager.get(ApexConstant.APEX_PREDATOR_INFO_REDIS_KEY);
+        if (StringUtils.isBlank(cachedPredatorInfo)) {
+            result = apexLegendsManager.queryApexPredator();
+            redisManager.set(ApexConstant.APEX_PREDATOR_INFO_REDIS_KEY, JSONObject.toJSONString(result), 1000 * 60 * 20L);
+        } else {
+            result = JSONObject.parseObject(cachedPredatorInfo, ApexPredatorResp.class);
         }
         return result;
     }
