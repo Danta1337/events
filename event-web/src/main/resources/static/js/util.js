@@ -76,8 +76,8 @@ function checkResult(json) {
 }
 
 // 初始化appbar，可指定打开的list和激活的item
-function initDrawerContent(list, item) {
-    fetch("/static/html/drawer-content.html").then(response => response.text()).then(text => {
+function initDrawerContent(content, list, item) {
+    fetch("/static/html/" + content + ".html").then(response => response.text()).then(text => {
         document.getElementById("drawer-content").outerHTML = text;
         if (list != null) {
             document.getElementById(list).classList.add("mdui-collapse-item-open");
@@ -90,9 +90,9 @@ function initDrawerContent(list, item) {
 }
 
 // 初始化appbar，可指定headline和title
-function initAppbarContent(headline, title) {
-    fetch("/static/html/appbar-content.html").then(response => response.text()).then(text => {
-        document.getElementById("appbar-content").outerHTML = text;
+function initAppbarContent(content, headline, title) {
+    fetch("/static/html/" + content + ".html").then(response => response.text()).then(text => {
+        document.getElementById(content).outerHTML = text;
         // 指定当前appbar的主题
         if (headline != null) {
             document.getElementById("appbar-headline").innerText = headline;

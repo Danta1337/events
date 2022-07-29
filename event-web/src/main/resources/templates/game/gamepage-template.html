@@ -29,8 +29,8 @@
 <!-- MDUI JavaScript -->
 <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
 <script>
-    initDrawerContent("drawer-games", null)
-    initAppbarContent("Games", "template")
+    initDrawerContent("drawer-content", "drawer-games", null)
+    initAppbarContent("appbar-content", "Games", "template")
 
     function handleDrawer() {
         let instance = new mdui.Drawer('#drawer');
