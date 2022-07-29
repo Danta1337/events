@@ -1,10 +1,12 @@
 <div class="mdu-list" mdui-collapse="{accordion: true}" style="margin-bottom: 76px">
+    <!-- Index -->
     <div class="mdui-collapse-item">
         <a class="mdui-collapse-item-header mdui-list-item mdui-ripple" href="/index">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">home</i>
             <div class="mdui-list-item-content" href="/index">Index</div>
         </a>
     </div>
+    <!-- Event -->
     <div class="mdui-collapse-item">
         <div class="mdui-collapse-item-header mdui-list-item mdui-ripple" id="drawer-event">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">event</i>
@@ -12,18 +14,29 @@
             <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
         </div>
     </div>
-    <!-- 一个合并边框项 -->
-    <div class="mdui-collapse-item" id="drawer-games">
+    <!-- Game -->
+    <div class="mdui-collapse-item" id="drawer-game">
         <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
             <!-- 选项图标 -->
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">videogame_asset</i>
-            <div class="mdui-list-item-content">Games</div>
+            <div class="mdui-list-item-content">Game</div>
             <!-- 下拉箭头 -->
             <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
         </div>
         <!-- 子项 -->
-        <div class="mdui-collapse-item-body mdui-list">
+        <div class="mdui-collapse-item-body mdui-list mdui-p-a-0">
             <a href="/game/apex" class="mdui-list-item mdui-ripple" id="drawer-games-apex">Apex Legends</a>
+        </div>
+    </div>
+    <!-- Picture -->
+    <div class="mdui-collapse-item" id="drawer-picture">
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">style</i>
+            <div class="mdui-list-item-content" href="/index">Picture</div>
+            <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+        </div>
+        <div class="mdui-collapse-item-body mdui-list mdui-p-a-0">
+            <a href="/picture/pixiv" class="mdui-list-item mdui-ripple" id="drawer-picture-pixiv">Pixiv</a>
         </div>
     </div>
 </div>

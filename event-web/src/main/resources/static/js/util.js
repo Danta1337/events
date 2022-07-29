@@ -13,29 +13,40 @@ function isNotBlank (id) {
     return true;
 }
 
-// 根据id获取某个元素的value值
+function getElement(id) {
+    return document.getElementById(id);
+}
+
 function getElementValue(id) {
-    return document.getElementById(id).value;
+    return getElement(id).value;
 }
 
 function setElementSrc(id, src) {
-    document.getElementById(id).src = src;
+    getElement(id).src = src;
 }
 
 function setElementValue(id, value) {
-    document.getElementById(id).value = value;
+    getElement(id).value = value;
 }
 
 function setElementInnerText(id, innerText) {
-    document.getElementById(id).innerText = innerText;
+    getElement(id).innerText = innerText;
 }
 
 function setElementInnerHtml(id, innerHtml) {
-    document.getElementById(id).innerHTML = innerHtml;
+    getElement(id).innerHTML = innerHtml;
 }
 
 function setElementAttribute(id, key, value) {
-    document.getElementById(id).setAttribute(key, value)
+    getElement(id).setAttribute(key, value)
+}
+
+function hideElement(id) {
+    getElement(id).hidden = true;
+}
+
+function appearElement(id) {
+    getElement(id).hidden = false;
 }
 
 // 根据元素idList拼凑GET请求链接的参数

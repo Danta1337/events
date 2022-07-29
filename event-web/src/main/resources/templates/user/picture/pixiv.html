@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+    <!-- MDUI CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css"/>
+    <script type="text/javascript" src="/static/js/util.js"></script>
+    <title>Events!</title>
+</head>
+<body class="mdui-drawer-body-left mdui-theme-primary-light-blue mdui-theme-accent-pink">
+<header class="appbar mdui-appbar">
+    <div id="appbar-content"></div>
+</header>
+<div class="mdui-drawer  mdui-color-theme-200" id="drawer">
+    <div id="drawer-content"></div>
+    </div>
+    <div class="mdui-container-fluid">
+        <div class="mdui-row mdui-typo">
+            <div class="mdui-col-md-1"></div>
+            <div class="mdui-col-md-4">
+                <h3>RainChan的图片服务 <small>随机Pixiv图片</small>
+                    <div class="mdui-spinner mdui-spinner-colorful mdui-float-right" id="spinner" hidden></div>
+                </h3>
+                <p>如果要重新随机图片，请点击右上角的刷新，或<code>F5</code>直接刷新，或点击<code>Random</code>按钮</p>
+                <p>目前页面加载的图片为适用于Web端压缩后的图片，部分图片可能因比例问题较为模糊。如果要获取原图，请点击图片下方的按钮<code>RAW IMG</code></p>
+                <p>如果想要了解图片的<code>id</code>、<code>作者</code>、<code>标题</code>等信息，可以点击图片下面的可扩展面板进行查询</p>
+                <p>如果想要根据<code>id</code>查询图片，请在下方的文本框中输入<code>id</code>后点击<code>Search</code></p>
+                <b>虽然接口提供方说：不会有奇怪的图片。但是还是会有概率出现<code>R18</code>的图片，注意安全</b>
+                <div class="mdui-textfield mdui-textfield-floating-label">
+                    <label class="mdui-textfield-label">Img id</label>
+                    <input class="mdui-textfield-input" oninput="value=value.replace(/[^\d]/g,'')" id="search-img-id"/>
+                </div>
+                <button class="mdui-btn mdui-ripple mdui-color-pink-200" onclick="search()">Search</button>
+                <button class="mdui-btn mdui-ripple mdui-color-pink-200 mdui-float-right" onclick="loadImg()">Random</button>
+            </div>
+            <div class="mdui-col-md-5 mdui-col-offset-md-1">
+                <div class="mdui-card  mdui-m-t-2" hidden id="picture-card">
+                    <div class="mdui-card-media">
+                        <!-- 图片 -->
+                        <img id="picture">
+                        <!-- 图片描述 -->
+                        <div class="mdui-card-media-covered mdui-card-media-covered-transparent">
+                            <div class="mdui-card-primary">
+                                <div class="mdui-card-primary-subtitle" id="sub-title"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mdui-crad-content">
+                        <div class="mdui-panel" mdui-panel>
+                            <div class="mdui-panel-item">
+                                <div class="mdui-panel-item-header">
+                                    <div class="mdui-panel-item-title">Basic</div>
+                                    <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                                </div>
+                                <div class="mdui-panel-item-body mdui-typo">
+                                    <p>id: <small id="picture-id"></small></p>
+                                    <p>title: <small id="picture-title"></small></p>
+                                    <p>authorId: <small id="author-id"></small></p>
+                                    <p>authorName: <small id="author-name"></small></p>
+                                    <p>alt: <small id="alt"></small></p>
+                                </div>
+                            </div>
+                            <div class="mdui-panel-item">
+                                <div class="mdui-panel-item-header">
+                                    <div class="mdui-panel-item-title">Picture Information</div>
+                                    <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                                </div>
+                                <div class="mdui-panel-item-body mdui-typo">
+                                    <p>width: <small id="width"></small></p>
+                                    <p>height: <small id="height"></small></p>
+                                    <p>tags: <small id="tags"></small></p>
+                                    <div class="mdui-panel-item-action">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mdui-card-actions">
+                        <button class="mdui-btn mdui-ripple mdui-color-pink-100" id="raw-img">Raw Img</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MDUI JavaScript -->
+    <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+<script>
+    initAppbarContent("appbar-content", "Picture", "Pixiv")
+    initDrawerContent("drawer-content", "drawer-picture", "drawer-picture-pixiv");
+    const url = "https://pximg.rainchan.win";
+    let rawImgUrl;
+    function handleDrawer() {
+        let instance = new mdui.Drawer('#drawer');
+        instance.options.swipe = true;
+        let state = instance.getState();
+        if (state === 'opening' || state === 'opened') {
+            instance.close();
+        } else {
+            instance.open();
+        }
+    }
+
+    // 初次加载随机图片
+    function loadImg () {
+        appearElement("spinner"); // 展示转圈圈
+        hideElement("picture-card");
+        fetch(url + "/img?web=true")
+            .then(redirect => {
+                setElementSrc("picture", redirect.url);
+                document.getElementById("picture").onload = function() {
+                    appearElement("picture-card");
+                    hideElement("spinner");
+                }
+                const redirectUrl = new URL(redirect.url);
+                let imgId = redirectUrl.searchParams.get("img_id");
+                setRawImg(imgId);
+                loadPictureInfo(imgId);
+            });
+    }
+
+    function setRawImg (imgId) {
+        rawImgUrl = url + "/img?img_id=" + imgId;
+        getElement("raw-img").onclick = function() {
+            window.open(rawImgUrl, "_blank");
+        }
+    }
+
+    function loadPictureInfo (imgId) {
+        fetch(url + "/imginfo?img_id=" + imgId)
+            .then(response => response.json())
+            .then(json => {
+                setElementInnerText("sub-title", json.title + " | " + json.id);
+                setElementInnerText("picture-id", json.id);
+                setElementInnerText("picture-title", json.title);
+                setElementInnerText("author-id", json.userId);
+                setElementInnerText("author-name", json.userName);
+                setElementInnerText("alt", json.alt);
+                setElementInnerText("width", json.width);
+                setElementInnerText("height", json.height);
+                setElementInnerText("tags", json.tags);
+            })
+    }
+
+    function search() {
+        let imgId = getElementValue("search-img-id");
+        if (imgId == null || imgId === '') {
+            loadImg();
+        } else {
+            appearElement("spinner");
+            fetch(url + "/img?web=true&img_id=" + imgId)
+                .then(response => response.blob())
+                .then(blob => {
+                    setElementSrc("picture", window.URL.createObjectURL(blob));
+                    loadPictureInfo(imgId);
+                    setRawImg(imgId);
+                    hideElement("spinner");
+                })
+                .catch(exception => {
+                    mdui.alert("不存在的图片id，可惜");
+                    hideElement("spinner");
+                })
+        }
+    }
+
+    loadImg();
+</script>
+</body>
+</html>

@@ -19,7 +19,7 @@
 <div class="mdui-drawer  mdui-color-theme-200" id="drawer">
     <div id="drawer-content"></div>
 </div>
-<div class="mdui-container-fluid mdui-m-d-5">
+<div class="mdui-container-fluid">
     <div class="mdui-row">
         <dvi class="mdui-col-md-2"></dvi>
         <div class="mdui-col-md-8 mdui-typo">
@@ -30,8 +30,8 @@
 <!-- MDUI JavaScript -->
 <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
 <script>
-    initAppbarContent("HomePage")
-    initDrawerContent();
+    initAppbarContent("appbar-content", "HomePage")
+    initDrawerContent("drawer-content");
 
     function handleDrawer() {
         let instance = new mdui.Drawer('#drawer');

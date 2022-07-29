@@ -63,11 +63,11 @@ public class UserController {
 
     @RequestMapping("/login")
     public String toLogin() {
-        return "user/login";
+        return "user/account/login";
     }
 
     @RequestMapping("/register")
     public String toRegister() {
-        return "user/register";
+        return "user/account/login";
     }
 }

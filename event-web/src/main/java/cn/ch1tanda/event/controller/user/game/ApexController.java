@@ -1,4 +1,4 @@
-package cn.ch1tanda.event.controller.game;
+package cn.ch1tanda.event.controller.user.game;
 
 import cn.ch1tanda.event.convention.response.Result;
 import cn.ch1tanda.event.convention.response.Results;
@@ -27,7 +27,7 @@ public class ApexController {
         model.addAttribute("mapRotation", apexLegendsService.getMapRotationInfo());
         model.addAttribute("crafting", apexLegendsService.getDailyOrWeeklyCraftingContent());
         model.addAttribute("predators", apexLegendsService.getApexPredatorInfo());
-        return "game/apex";
+        return "user/game/apex";
     }
 
     @ResponseBody
