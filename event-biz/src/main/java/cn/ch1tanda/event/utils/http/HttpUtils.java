@@ -1,6 +1,5 @@
 package cn.ch1tanda.event.utils.http;
 
-import cn.ch1tanda.event.manager.game.apex.req.ApexPlayerStatisticsQueryReq;
 import cn.ch1tanda.event.utils.http.annotation.HttpParam;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.codec.Charsets;
@@ -26,20 +25,11 @@ public class HttpUtils {
 
     private static HttpClient httpClient;
 
-    public static <T> List<T> GETArray (String URL, Class<T> responseType) {
-        return GETArray(URL, new HashMap<String, String>(), responseType);
+    public static <T> List<T> GETJsonArray(String URL, Class<T> responseType) {
+        return GETJsonArray(URL, new HashMap<String, String>(), responseType);
     }
 
-    public static void main(String[] args) {
-        ApexPlayerStatisticsQueryReq req = new ApexPlayerStatisticsQueryReq();
-        req.setAuth("auth");
-        req.setPlatform("PC");
-        req.setPlayer("ch1tanda");
-        String httpParamStr = HttpUtils.getHttpParamStr(req);
-        System.out.println(httpParamStr);
-    }
-
-    public static <T> List<T> GETArray (String URL, Map<String, String> param, Class<T> responseType) {
+    public static <T> List<T> GETJsonArray(String URL, Map<String, String> param, Class<T> responseType) {
         List<NameValuePair> params = new ArrayList<>();
         param.forEach((key, value) -> params.add(new BasicNameValuePair(key, value)));
         HttpGet get = new HttpGet(buildGetURI(URL, params));
@@ -52,11 +42,11 @@ public class HttpUtils {
         }
     }
 
-    public static <T> T GET (String URL, Class<T> responseType) {
-        return GET(URL, new HashMap<String, String>(), responseType);
+    public static <T> T GETJson(String URL, Class<T> responseType) {
+        return GETJson(URL, new HashMap<String, String>(), responseType);
     }
 
-    public static <T> T GET (String URL, Map<String, String> param, Class<T> responseType) {
+    public static <T> T GETJson(String URL, Map<String, String> param, Class<T> responseType) {
         List<NameValuePair> params = new ArrayList<>();
         param.forEach((key, value) -> params.add(new BasicNameValuePair(key, value)));
         HttpGet get = new HttpGet(buildGetURI(URL, params));
@@ -64,6 +54,18 @@ public class HttpUtils {
             HttpResponse response = getClient().execute(get);
             String responseStr = EntityUtils.toString(response.getEntity());
             return JSONObject.parseObject(responseStr, responseType);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String GET(String URL, Map<String, String> param) {
+        List<NameValuePair> params = new ArrayList<>();
+        param.forEach((key, value) -> params.add(new BasicNameValuePair(key, value)));
+        HttpGet get = new HttpGet(buildGetURI(URL, params));
+        try {
+            HttpResponse response = getClient().execute(get);
+            return EntityUtils.toString(response.getEntity());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

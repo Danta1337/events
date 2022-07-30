@@ -3,7 +3,7 @@ package cn.ch1tanda.event.manager.tools.file.impl;
 import cn.ch1tanda.event.manager.tools.file.FileManager;
 import cn.ch1tanda.event.manager.tools.file.constant.FileAccessConstant;
 import cn.ch1tanda.event.mapper.ConfigMapper;
-import cn.ch1tanda.event.mapper.dataobject.ConfigDO;
+import cn.ch1tanda.event.model.ConfigDO;
 import cn.ch1tanda.event.utils.exception.AssertUtils;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;

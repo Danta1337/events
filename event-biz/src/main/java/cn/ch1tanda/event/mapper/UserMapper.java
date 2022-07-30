@@ -1,26 +1,25 @@
 package cn.ch1tanda.event.mapper;
 
-import cn.ch1tanda.event.model.User;
+import cn.ch1tanda.event.model.UserDO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 @Mapper
 public interface UserMapper {
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(User row);
+    int insert(UserDO row);
 
-    User selectByPrimaryKey(Integer id);
+    UserDO selectByPrimaryKey(Integer id);
 
-    List<User> selectAll();
+    List<UserDO> selectAll();
 
-    int updateByPrimaryKey(User row);
+    int updateByPrimaryKey(UserDO row);
 
-    User selectUsernameAndPasswordByUsername(@Param("username") String username);
+    UserDO selectUsernameAndPasswordByUsername(@Param("username") String username);
 
-    User selectUserByEmail (@Param("email") String email);
+    UserDO selectUserByEmail (@Param("email") String email);
 }

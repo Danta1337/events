@@ -1,4 +1,4 @@
-package cn.ch1tanda.event.mapper.dataobject;
+package cn.ch1tanda.event.model;
 
 import lombok.Data;
 
@@ -36,5 +36,5 @@ public class ConstraintDO {
     /**
      * 备注
      */
-    private String remark;
+    private String remark = "";
 }

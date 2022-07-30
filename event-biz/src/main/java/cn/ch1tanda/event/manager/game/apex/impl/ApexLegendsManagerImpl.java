@@ -33,7 +33,7 @@ public class ApexLegendsManagerImpl implements ApexLegendsManager {
     @Override
     public ApexMapQueryResp queryMapRotationInfo(ApexMapQueryReq request) {
         request.setAuth(this.getAuthAPIKey());
-        return HttpUtils.GET(REQUEST_URL + ApexRequestPath.MAP_ROTATION + HttpUtils.getHttpParamStr(request)
+        return HttpUtils.GETJson(REQUEST_URL + ApexRequestPath.MAP_ROTATION + HttpUtils.getHttpParamStr(request)
                 , ApexMapQueryResp.class);
     }
 
@@ -45,7 +45,7 @@ public class ApexLegendsManagerImpl implements ApexLegendsManager {
             // 如果同时传了Name和UID，默认取UID
             request.setPlayer(null);
         }
-        return HttpUtils.GET(REQUEST_URL + ApexRequestPath.QUERY_PLAY_STATISTICS + HttpUtils.getHttpParamStr(request)
+        return HttpUtils.GETJson(REQUEST_URL + ApexRequestPath.QUERY_PLAY_STATISTICS + HttpUtils.getHttpParamStr(request)
                 , ApexPlayerStatisticsQueryResp.class);
     }
 
@@ -53,7 +53,7 @@ public class ApexLegendsManagerImpl implements ApexLegendsManager {
     public ApexUIDQueryResp queryUIDByNameAndPlatform(ApexUIDQueryReq request) {
         request.setAuth(this.getAuthAPIKey());
         request.checkParam();
-        return HttpUtils.GET(REQUEST_URL + ApexRequestPath.QUERY_UID_BY_NAME + HttpUtils.getHttpParamStr(request)
+        return HttpUtils.GETJson(REQUEST_URL + ApexRequestPath.QUERY_UID_BY_NAME + HttpUtils.getHttpParamStr(request)
                 , ApexUIDQueryResp.class);
     }
 
@@ -61,7 +61,7 @@ public class ApexLegendsManagerImpl implements ApexLegendsManager {
     public ApexPredatorResp queryApexPredator() {
         ApexCommonReq request = new ApexCommonReq();
         request.setAuth(this.getAuthAPIKey());
-        return HttpUtils.GET(REQUEST_URL + ApexRequestPath.PREDATOR + HttpUtils.getHttpParamStr(request)
+        return HttpUtils.GETJson(REQUEST_URL + ApexRequestPath.PREDATOR + HttpUtils.getHttpParamStr(request)
                 , ApexPredatorResp.class);
     }
 
@@ -69,7 +69,7 @@ public class ApexLegendsManagerImpl implements ApexLegendsManager {
     public List<ApexCraftingResp> queryApexCrafting() {
         ApexCommonReq request = new ApexCommonReq();
         request.setAuth(this.getAuthAPIKey());
-        return HttpUtils.GETArray(REQUEST_URL + ApexRequestPath.CRAFTING + HttpUtils.getHttpParamStr(request)
+        return HttpUtils.GETJsonArray(REQUEST_URL + ApexRequestPath.CRAFTING + HttpUtils.getHttpParamStr(request)
                 , ApexCraftingResp.class);
     }
 

@@ -1,6 +1,6 @@
-package cn.ch1tanda.event.mapper.dataobject.query;
+package cn.ch1tanda.event.model.query;
 
-import cn.ch1tanda.event.mapper.dataobject.ConfigDO;
+import cn.ch1tanda.event.model.ConfigDO;
 import lombok.Data;
 
 /**

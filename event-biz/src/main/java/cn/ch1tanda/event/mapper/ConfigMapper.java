@@ -1,13 +1,11 @@
 package cn.ch1tanda.event.mapper;
 
-import cn.ch1tanda.event.mapper.dataobject.ConfigDO;
-import cn.ch1tanda.event.mapper.dataobject.query.ConfigQuery;
-import org.apache.ibatis.annotations.MapKey;
+import cn.ch1tanda.event.model.ConfigDO;
+import cn.ch1tanda.event.model.query.ConfigQuery;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public interface ConfigMapper {

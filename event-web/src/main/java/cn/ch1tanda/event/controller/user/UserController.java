@@ -2,7 +2,7 @@ package cn.ch1tanda.event.controller.user;
 
 import cn.ch1tanda.event.convention.response.Result;
 import cn.ch1tanda.event.convention.response.Results;
-import cn.ch1tanda.event.model.User;
+import cn.ch1tanda.event.model.UserDO;
 import cn.ch1tanda.event.service.user.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -44,7 +44,7 @@ public class UserController {
         }
 
         String encodedPassword = passwordEncoder.encode(password);
-        User user = new User();
+        UserDO user = new UserDO();
         user.setEmail(email);
         user.setUsername(username);
         user.setPassword(encodedPassword);

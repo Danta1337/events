@@ -1,6 +1,6 @@
 package cn.ch1tanda.event.service.user;
 
-import cn.ch1tanda.event.model.User;
+import cn.ch1tanda.event.model.UserDO;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface UserService {
      * @param username 用户名
      * @return 用户信息
      */
-    User auth(String username);
+    UserDO auth(String username);
 
     /**
      * 根据用户名获取权限
@@ -28,7 +28,7 @@ public interface UserService {
      * @param req 用户注册信息
      * @return 是否注册成功
      */
-    boolean register(User req);
+    boolean register(UserDO req);
 
     /**
      * 找回密码

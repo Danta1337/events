@@ -4,7 +4,7 @@ import cn.ch1tanda.event.exception.ServiceInvalidException;
 import cn.ch1tanda.event.manager.framework.RedisManager;
 import cn.ch1tanda.event.mapper.AuthorityMapper;
 import cn.ch1tanda.event.mapper.UserMapper;
-import cn.ch1tanda.event.model.User;
+import cn.ch1tanda.event.model.UserDO;
 import cn.ch1tanda.event.service.generic.email.EmailService;
 import cn.ch1tanda.event.service.user.UserService;
 import cn.ch1tanda.event.service.user.constant.UserConstants;
@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService {
     private AuthorityMapper authorityMapper;
 
     @Override
-    public User auth(String username) {
-        User res = userMapper.selectUsernameAndPasswordByUsername(username);
+    public UserDO auth(String username) {
+        UserDO res = userMapper.selectUsernameAndPasswordByUsername(username);
         return Objects.isNull(res) ? null : res;
     }
 
@@ -50,8 +50,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean register(User user) {
-        User res = userMapper.selectUsernameAndPasswordByUsername(user.getUsername());
+    public boolean register(UserDO user) {
+        UserDO res = userMapper.selectUsernameAndPasswordByUsername(user.getUsername());
         if (Objects.nonNull(res)) {
             throw new ServiceInvalidException("Username already exists");
         }
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
     public Boolean retrievePassword(String email, String newPassword) {
         AssertUtils.isNotBlank(email, "Email can not be blank!");
         AssertUtils.isNotBlank(newPassword, "New password can not be blank!");
-        User user = userMapper.selectUserByEmail(email);
+        UserDO user = userMapper.selectUserByEmail(email);
         AssertUtils.isTrue(Objects.nonNull(user), "Can not find user by email!");
         user.setPassword(newPassword);
         int updateResult = userMapper.updateByPrimaryKey(user);
