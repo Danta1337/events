@@ -47,14 +47,15 @@ public class RequestIpRecordAspect {
     public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
         try {
             String ip = request.getRemoteAddr();
-            executor.execute(() -> this.saveRequestHistory(ip));
+            String path = request.getRequestURI();
+            executor.execute(() -> this.saveRequestHistory(ip, path));
         } catch (Exception e) {
             log.info("Exception occurred when get request IP!", e);
         }
         return joinPoint.proceed();
     }
 
-    private void saveRequestHistory (String ip) {
+    private void saveRequestHistory (String ip, String path) {
         Map<String, String> params = new HashMap<>();
         params.put("ip", ip);
         String ipDetails = HttpUtils.GET(IP_CHECK_URL, params);
@@ -72,6 +73,7 @@ public class RequestIpRecordAspect {
         requestHistory.setProvince(strArray2[1]);
         requestHistory.setCity(strArray2[2]);
         requestHistory.setISP(strArray2[3]);
+        requestHistory.setPath(path);
         requestHistoryMapper.insert(requestHistory);
     }
 }

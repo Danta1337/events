@@ -32,4 +32,9 @@ public class RequestHistoryDO extends ConstraintDO {
      * 网络服务提供商ISP
      */
     private String ISP;
+
+    /**
+     * 请求路径
+     */
+    private String path;
 }

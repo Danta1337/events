@@ -14,15 +14,16 @@
         <result column="province" property="province"/>
         <result column="city" property="city"/>
         <result column="ISP" property="ISP"/>
+        <result column="path" property="path"/>
     </resultMap>
 
     <sql id="base_column">
-        pk_id, gmt_created, gmt_modified, is_deleted, remark, ip, country, province, city, ISP
+        pk_id, gmt_created, gmt_modified, is_deleted, remark, ip, country, province, city, ISP, `path`
     </sql>
 
     <insert id="insert" parameterType="cn.ch1tanda.event.model.RequestHistoryDO">
         insert into request_history
-        values (null, now(), now(), 0, #{remark}, #{ip}, #{country}, #{province}, #{city}, #{ISP});
+        values (null, now(), now(), 0, #{remark}, #{ip}, #{country}, #{province}, #{city}, #{ISP}, #{path});
     </insert>
 
 </mapper>
